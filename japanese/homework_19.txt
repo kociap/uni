@@ -1,0 +1,41 @@
+Homework A1 60a
+Last updated: 09.12.2020
+
+1. From now, you go where?
+2. Today, until when, you will be in this house?
+3. From when, this ship is here?
+4. Tomorrow, until evening, you will be at work?
+5. From where, this bus comes to Wroclaw?
+6. From where, this airplane comes back to Poland?
+7. From shop, your family will go where?
+8. Your friends come to Wroclaw from Japan?
+9. From the kitchen, you go back to the room?
+
+1. ima kara anata wa doko ikimasuka?
+2. kyou istu amde anata wa kono ie ni imasuka?
+3. itsu kara kono fune wa koko ni arimasuka?
+4. ashita yoru made anata wa shigoto ni imasuka?
+5. doko kara kono basu wa wroclaw ni kimasuka?
+6. doko kara kono hikouki wa po-rando ni kaerimasuka?
+7. mise kara anata kuzoku wa doko ni ikimasuka?
+8. anata no tomodachi wa nihon kara wroclaw ni kimasuka?
+9. kitchen kara anata wa heya ni kaerimasuka?
+
+vocabulary:
+from A => A kara
+until B => B made
+***
+airplane = hikouki  飛行機
+(electric) train = densha 電車
+(non-electric, older) train = kisha 汽車
+bus = basu バス
+tram= toramu トラム
+ship= fune 船
+
+
+
+
+
+
+
+

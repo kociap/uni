@@ -1,0 +1,39 @@
+Homework A1 60a
+Last updated: 04.11.2020
+
+1. Your home is in Wrocław?
+2. Tokyo is in Japan?
+3. This is hair? (IIE,...)*
+4. Your name is Jurek? (IIE,...)
+5. They are persons from USA? (IIE,...)
+6. Your bag is this? (IIE,...)
+7. Cinema is where?**
+8. Keys are on the table?
+9. Shop is on pl. Grunwaldzki?
+
+* (IIE,...) = please start the answer with "IIE" & use negation.
+**please use the new location verb for translation.
+
+1. anata no ie wa wroclaw ni arimasuka?
+   iie, watashi no ie wa skarzysko ni arimasu
+2. tokyou wa nihon ni arimasuka?
+   hai, tokyou wa nihon ni arimasu
+3. sore wa kami desuka?
+   iie, sore wa kami dewa arimasen
+4. anata no namae wa jurek desuka?
+   iie, watashi no name wa jurek dewa arimasen
+5. karera wa amerika no kata desuka?
+   iie, karera wa amerika no kata dewa arimasen
+6. anata no kaban wa sore desuka?
+   iie, watashi no kaban wa sore dewa arimasen
+7. eigakan wa doko ni arimasuka?
+   eigakan wa wroclaw ni arimasu
+8. kagi wa tsukue ni arimasuka?
+   hai, kagi wa tsukue ni arimasu
+9. mise wa pl. grunwaldzki ni arimasuka?
+   hai, mise wa pl. grunwaldzki ni arimasu
+
+vocabulary:
+home/house = ie 家
+Europe = yo-roppa ヨーロッパ
+Asia = azia アジア

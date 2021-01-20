@@ -1,0 +1,61 @@
+Homework A1 60a
+Last updated: 09.11.2020
+
+1. PWr is where in Poland?
+2. Museum is where in Wrocław?
+3. Your bag is where in the house?
+4. Microwave is in your room?
+5. Bathtub is in the toilet?
+6. Chimney is where?
+7. Post office is where in the city?
+8. Your home is on Rynek in Wrocław?
+
+1. pwr wa po-rando no doko ni arimasuka?
+   pwr wa po-rando no wroclaw ni arimasu
+2. hakubutsukan wa wroclaw no doko ni arimasuka?
+   hakubutsukan wa wroclaw no pl. grunwaldzki ni arimasu
+3. anata no kaban wa eki no doko ni arimasuka?
+   watashi no kaban wa eki no yuka ni arimasu
+4. denshi renji wa anata no heya ni arimasuka?
+   iie, denshi renji wa kitchen ni arimasu
+5. ofuro wa toiru ni arimasuka?
+   iie, ofuro wa furoba ni arimasu
+6. entotsu wa doko ni arimasuka?
+   entotsu wa yane ni arimasu
+7. yuubinkyoku wa machi no doko ni arimasuka?
+   yuubinkyoku wa machi no pl. grunwaldzki ni arimasu
+8. anata no ie wa wroclaw no rynku ni arimasuka?
+   watashi no ie wa wroclaw no t4 ni arimasu
+
+vocabulary:
+roof = yane 屋根
+entrance = iriguchi 入り口
+chimney = entotsu 煙突
+car = kuruma 車
+motorbike = baiku バイク
+bicycle = jitensha 自転車
+garden = niwa 庭
+kitchen  キッチン
+chopsticks = hashi 箸
+fork フォーク
+knife ナイフ
+spoon スプーン
+sink = nagashi 流し
+refrigerator = reizouko 冷蔵庫
+microwave = denshi renji 電子レンジ
+oven = o-bun オーブン
+radio = rajio ラジオ
+living room リビングルーム
+TV = terebi テレビ
+remote controller = rimokon リモコン
+sofa = sofa- ソファー
+room = heya 部屋
+bed = beddo ベッド
+bathroom = furoba 風呂場
+shower = shawa- シャワー
+bath = ofuro お風呂
+senmenjo 洗面所
+mirror = kagami 鏡
+towel = taoru タオル
+
+

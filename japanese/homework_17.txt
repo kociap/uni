@@ -1,0 +1,52 @@
+Homework A1 60a
+Last updated: 02.12.2020
+
+1. You go to that mountain tomorrow?
+2. Your parents go where this morning?*
+3. Your husband goes where in the afternoon?
+4. Her cousin is at work today?
+5. Tomorrow evening you go to a pub?
+6. This afternoon his wife goes to the forest?*
+7. In the morning he doesn't stay at home. 
+8. Tomorrow afternoon we don't go to the sea.
+
+*this morning = today's morning,  the same for "this afternoon" and "this evening"
+
+1. anata wa ashita yama ni ikimasuka?
+2. anata no oya wa kyou no asa doko ni ikimasuka?
+3. anata no otto wa hiru doko ni ikimasuka?
+4. kanojo no itoko wa kyou shigoto ni imasu?
+5. ashita no yoru anata wa pabbu ni ikimasuka?
+6. kyou no hiru kare no tsuma wa mori ni ikimasuka?
+7. asa kare wa ie niwa imasen
+8. ashita no hiru watashitachi wa umi niwa ikimasen
+
+vocabulary:
+morning = asa 朝
+afternoon = hiru 昼
+late afternoon (16:00-19:00) = yuugata 夕方
+evening/night = yoru 夜
+this morning = kesa 今朝
+this evening = kon ya 今夜
+***
+mountain = yama 山
+forest = mori 森
+river = kawa 川
+sea = umi 海
+lake = mizuumi 湖
+work = shigoto 仕事
+***
+oya = parent(s) 親
+ryoushin = both parents 両親
+kyoudai = brothers 兄弟
+shimai = sisters 姉妹
+otto = husband 夫
+tsuma = wife 妻
+kodomo = child(ren) 子供
+musuko = son 息子
+musume = daughter 娘
+itoko = cousin 従兄弟
+
+
+
+

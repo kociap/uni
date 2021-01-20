@@ -1,0 +1,58 @@
+Homework A1 60a
+Last updated: 25.11.2020
+
+1. Lion is in that zoo?
+2. Your friend is in this university?
+3. My father's chickens are in the garden?
+4. Your younger sister is in China?
+5. Their mother is at home? Or, at a railway station? 
+6. Elephant is in the zoo? Or, in a park?
+7. Pigs are where in that house?
+8. My rabbit is outside the house?
+9. This horse is whose horse?
+
+1. raion wa sono doubutsuen ni imasuka?
+2. anata no tomodachi wa kono kouka daigaku ni imasuka?
+3. watashi no chichi no niwatori wa niwa ni imasuka?
+4. anata no ani wa chuugoku ni imasuka?
+5. karera no haha wa ie ni imasuka? soretomo, eki ni imasuka?
+6. zou wa doubutsuen ni imasuka? soretomo, kouen ni imasuka?
+7. buta wa sono ie no doko ni imasuka?
+8. watashi no usagi wa ie no soto ni imasuka?
+9. kono uma wa dare no uma desuka?
+
+vocabulary:
+this X = kono X
+that X = sono X, or ano X
+***
+family = kazoku 家族
+father = chichi 父
+(dad = otousan お父さん)
+mother = haha 母
+(mama= okaasan お母さん)
+older sister = ane 姉
+older brother = ani 兄
+younger sister = imouto 妹
+younger brother = otouto 弟
+friend(s) = tomodachi 友達
+***
+pigeon = hato 鳩 
+fish = sakana 魚 
+horse = uma 馬
+turtle = kame 亀
+mouse = nezumi ネズミ
+chicken = niwatori 鶏
+cow = ushi 牛
+pig = buta 豚
+rabbit = usagi 兎
+snake = hebi 蛇
+lion = raion ライオン
+tiger = tora 虎
+elephant = zou 象
+animal = doubutsu 動物
+zoo = doubutsuen 動物園
+plants = shokubutsu 植物
+botanical garden = shokubutsuen 植物園
+pet = petto ペット
+
+

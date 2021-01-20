@@ -1,0 +1,44 @@
+Homework A1 60a
+Last updated: 14.10.2020
+
+Please translate the questions & answer them in Japanese
+1. You are a person from which country?
+2. His country is China?
+3. You are Japanese?
+4. She is a person from which country?
+5. Your country is Poland?
+6. He is a person from Germany?
+7. She is Spanish?
+
+1. anata wa dochira no kuni no kata desuka?
+2. kare no kuni wa chuugoku desuka?
+3. anata wa nihonjin desuka?
+4. kanojo wa dochira no kuni no kata desuka?
+5. anata no kuni wa po-rando desuka?
+6. kare wa doitsu no kata desuka?
+7. kanojo wa supeinjin desuka?
+
+vocabulary:
+country = kuni　国
+person = hito 人
+person (respect form) = kata　かた
+Poland = po-rando ポーランド
+Japan = nihon 日本
+China = chuugoku 中国
+South Korea = kankoku 韓国 
+Turkey = toruko トルコ
+Germany = doitsu ドイツ
+France = furansu フランス
+Italy = itaria イタリア
+UK = igirisu イギリス
+Spain = supein スペイン
+USA = Amerika アメリカ
+Canada = Kanada カナダ
+Belgium = Berugi- ベルギー
+Greece = Girisha　ギリシャ
+Switzerland = Suisu　スイス
+Netherlands = Oranda　オランダ
+Japanese = Nihonjin 日本人
+
+
+

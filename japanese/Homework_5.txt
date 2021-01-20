@@ -1,0 +1,32 @@
+Homework A1 60a
+Last updated: 19.10.2020
+
+Please translate the questions & answer them in Japanese
+1. Your* university is PWr? (* plural)
+2. His company is Nokia?
+3. You are a person from which city?
+4. This is a school?
+5. You are persons from which university? (<=plural)
+6. They* are Japanese? (* 3 females)
+7. Their* city is Warsaw? (* 1 male +1 female)
+
+1. anatatachi no daigaku wa wroclaw kouka daigaku desuka?
+2. kare no kaisha wa nokia desuka?
+3. anata wa dochira no machi no kata desuka?
+4. are wa gakkou desuka?
+5. anatatachi wa dochira no daigaku no kata desuka?
+6. kanojora wa nihonjin desuka?
+7. karera no machi wa warushawa?
+
+vocabulary:
+city = machi
+we = watashitachi 私たち
+you (plural) = anatatachi あなたたち
+they = karera/kanojora かれら／かのじょら
+school = gakkou 学校
+university = daigaku 大学
+company = kaisha 会社
+PWr = Wrocław kouka daigaku ヴロツワフ工科大学
+
+
+

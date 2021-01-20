@@ -1,0 +1,35 @@
+Homework A1 60a
+Last updated:13.11.2020
+
+1. Towel is where in the house?
+2. TV is where in the house?
+3. Toilet is above the kitchen?
+4. Living room is under your room?
+
+1. taoru wa ie no doko ni arimasuka?
+   taoru wa furoba ni arimasu.
+2. terebi wa ie no doko ni arimasuka?
+   terebi wa living room ni arimasu.
+3. toiru wa kitchen no ue ni arimasuka?
+   iie, toiru wa kitchen no shita ni arimasu.
+4. living room wa anata no heya no shita ni arimasuka?
+   hai, living room wa watashi no heya no shita ni arimasu.
+
+Use the picture from the lesson (https://www.dropbox.com/s/0wc6c24es9a8gxj/homework-pic01.png)
+and answer the questions:
+5. Kitchen wa Living room no Doko ni arimaska?
+6. Toire wa Furoba no Doko ni arimaska?
+7. Furoba wa Toire no Doko ni arimaska?
+8. Living room wa Watashi no heya no Doko no Kitchen no Doko ni arimaska?
+
+5. kitchen wa living room no hidari ni arimasu
+6. toire wa furoba no hidari ni arimasu
+7. furowa wa toire no migi ni arimasu
+8. living room wa anata no heya no shita no kitchen no migi ni arimasu
+
+vocabulary:
+→ = migi 右
+← = hidari 左
+↑= ue 上
+↓= shita 下
+

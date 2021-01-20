@@ -1,0 +1,40 @@
+Homework A1 60a
+Last updated: 23.11.2020
+
+1. Your dog is in the park?
+2. "Where are you?"
+3. My cats are on the roof? 
+4. Your school is in Belgium? (IIE,...)*
+5. Their company is in England? (IIE,...)
+6. Her eyeglasses are under the magazine? (IIE,...)
+7. Your name is Pafnucy? (IIE,...)
+8. The monkey is inside the house? (IIE,...)
+9. You are in Japan?
+
+1. anata no isu wa kouen ni imasuka?
+   iie, watashi no ise wa niwa ni imasu.
+2. anata wa doko ni imasuka?
+   watashi wa ie ni imasu
+3. watashi no neko wa yane no ue ni imasuka?
+   hai, anata no neko wa yane no ue ni imasu
+4. anata no gakkou wa berugi- ni arimasuka?
+   iie, watashi no gakkou wa berugi- niwa arimasen
+5. karera no kaisha wa ingurando ni arimasuka?
+   iie, karera no kaisha wa ingurando niwa arimasen
+6. kanojo no megane wa zasshi no shita ni arimasuka?
+   iie, kanojo ne megane wa zasshi no shita niwa arimasen
+7. anata no namae wa panfucy desuka?
+   iie, watashi no namae wa panfuni dewa arimasen
+8. saru wa ie no naka ni imasuka?
+   iie, saru wa ie no naka niwa imasen
+9. anata wa nihon ni imasuka?
+   iie, watashi wa nihon niwa imasen
+
+*(IIE,...) = please start the answer with "IIE" & use negation.
+
+vocabulary:
+next to = yoko 横
+inside = naka 中
+outside = soto 外
+
+

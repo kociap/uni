@@ -1,0 +1,22 @@
+Homework A1 60a
+Last updated: 05.10.2020
+
+Please translate into Japanese:
+1. Good morning
+2. Good evening
+3. This is a pen.
+4. This is beer.
+5. These are the pens.
+
+vocabulary:
+this = kore これ
+pen = pen ペン
+key(s) = kagi 鍵
+mobile phone = keitai 携帯
+notebook = no-to ノート 
+coffee = ko-hi- コーヒー
+beer = bi-ru ビール
+good morning = ohayou おはよう, ohayou gozaimas おはようございます
+good afternoon = konnichiwa こんにちは
+good evening = konbanwa こんばんは
+

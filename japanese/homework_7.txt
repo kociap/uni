@@ -1,0 +1,46 @@
+Homework A1 60a
+Last updated: 26.10.2020
+
+Please translate the questions & answer them in Japanese
+1. Your wristwatch is which one (of 2)*? 
+2. Mobile phone is which one (of 3)?
+3. Lamp is which one (of 5)?
+4. My pen is which one (of 2)?
+5. Wroclaw Airport is where?
+6. That is a hospital?
+7. Railway station is here?
+
+* the number of choice. Please choose DOCHIRA or DORE by looking at the numbers in the ( ).
+
+1. anata no udedokei wa dochira desuka?
+2. keitai wa dore desuka?
+3. ranpu wa dore desuka?
+4. watashi no pen wa dochira desuka?
+5. wroclaw kuukou wa doko desuka?
+6. sore wa byouin desuka?
+7. eki wa koko desuka?
+
+vocabulary:
+railway station = eki 駅
+pub = pabu パブ
+swimming pool = pu-ru プール
+shop = mise 店
+hospital = byouin 病院
+airport = kuukou 空港
+toilet = toire トイレ
+temple = otera お寺
+castle = osiro お城
+
+vocabulary for the next lesson:
+1 = ichi
+2 = ni
+3 = san
+4 = yon
+5 = go
+6 = roku
+7 = nana
+8 = hachi
+9 = kyuu
+10 = juu
+
+

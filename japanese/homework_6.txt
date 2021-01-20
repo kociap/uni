@@ -1,0 +1,45 @@
+Homework A1 60a
+Last updated: 21.10.2020
+
+Please translate the questions & answer them in Japanese
+1. Your country is where? 
+2. His school is where?
+3. Post office is here?
+4. Windows are where?
+5. Museum is over there?*
+6. Your shoes are where?
+7. That is a police station?
+8. She is a person from which bank?
+9. My bag is where?
+
+* use ASOKO
+
+1. anata no kuni wa doko desuka?
+2. kare no gakku wa doko desuka?
+3. yuubinkyoku wa koko desuka?
+4. doko wa mado desuka?
+5. hakubutsukan wa asoko desuka?
+6. anata no kutsu wa doko desuka?
+7. soko wa keisatsusho desuka?
+8. kanojo wa dochira no ginkou no kata desuka?
+9. watashi no kaban wa doko desuka?
+
+
+vocabulary:
+here = koko ここ
+there = soko そこ
+over there = asoko あそこ
+***
+village = mura 村
+post office = yuubinkyoku　郵便局
+police station = keisatsusho　警察署
+church = kyoukai　教会
+park = kouen　公園
+bank = ginkou　銀行
+theatre = gekijou　劇場
+cinema = eigakan　映画館
+museum = hakubutsukan　博物館
+library = toshokan　図書館
+
+
+
