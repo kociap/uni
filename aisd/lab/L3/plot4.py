@@ -59,7 +59,7 @@ comparisons_axes.set_ylabel("comparisons")
 comparisons_axes.legend(loc = "upper left")
 comparisons_axes.figure.savefig("./binsearch_compares.png")
 
-time_cf = time_constant_factors.plot.bar(xticks=[], linewidth=5)
+time_cf = time_constant_factors.plot.bar(xticks=[])
 time_cf.figure.savefig("./binsearch_time_cf.png")
 comparisons_cf = comparisons_constant_factors.plot.bar(xticks=[])
 comparisons_cf.figure.savefig("./binsearch_compares_cf.png")

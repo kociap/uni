@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas
+import math
 
 def read_data_file(path_function, index_function, count):
     means = pandas.DataFrame(columns=["time", "comparisons", "swaps"])
@@ -26,15 +27,29 @@ for info in data_info:
     comparisons.insert(len(comparisons.columns), f"{info['name']}", means.iloc[:, 1])
     swaps.insert(len(swaps.columns), f"{info['name']}", means.iloc[:, 2])
 
+def compute_constant_factors(dataframe):
+    constant_factors = pandas.DataFrame()
+    for row in dataframe.iterrows():
+        fac = row[0] * math.log2(row[0])
+        frow = row[1].apply(lambda v: v / fac).to_frame().T
+        constant_factors = pandas.concat([constant_factors, frow])
+    return constant_factors
+
+comparisons_cf = compute_constant_factors(comparisons).mean().to_frame().T
+
+# Time
 times_axes = times.plot()
 times_axes.set_ylabel("time (ns)")
 times_axes.figure.savefig("./sort_time.png")
-print(times)
+# Comparisons
 comparisons_axes = comparisons.plot()
 comparisons_axes.set_ylabel("comparisons")
 comparisons_axes.figure.savefig("./sort_compares.png")
-print(comparisons)
+# Swaps
 swaps_axes = swaps.plot()
 swaps_axes.set_ylabel("swaps")
 swaps_axes.figure.savefig("./sort_swaps.png")
-print(comparisons)
+# Comparisons constant factor
+ccf_axes = comparisons_cf.plot.bar(xticks=[])
+ccf_axes.figure.savefig("./sort_compares_cf.png")
+
