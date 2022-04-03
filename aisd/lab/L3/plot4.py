@@ -39,13 +39,27 @@ master_data = generate_master_data(lambda i: 5000 * i, 20)
 times.insert(len(times.columns), "master", master_data.iloc[:, 0])
 comparisons.insert(len(comparisons.columns), "master", master_data.iloc[:, 1])
 
+def compute_constant_factors(dataframe):
+    constant_factors = pandas.DataFrame()
+    for row in dataframe.iterrows():
+        lg = math.log2(row[0])
+        frow = row[1].apply(lambda v: v / lg).to_frame().T
+        constant_factors = pandas.concat([constant_factors, frow])
+    return constant_factors
+
+time_constant_factors = compute_constant_factors(times).mean().to_frame().T.iloc[:, 0:5]
+comparisons_constant_factors = compute_constant_factors(comparisons).mean().to_frame().T.iloc[:, 0:5]
+
 times_axes = times.plot()
 times_axes.set_ylabel("time (ns)")
 times_axes.legend(loc = "upper left")
 times_axes.figure.savefig("./binsearch_time.png")
-# print(times)
 comparisons_axes = comparisons.plot()
 comparisons_axes.set_ylabel("comparisons")
 comparisons_axes.legend(loc = "upper left")
 comparisons_axes.figure.savefig("./binsearch_compares.png")
-# print(comparisons)
+
+time_cf = time_constant_factors.plot.bar(xticks=[], linewidth=5)
+time_cf.figure.savefig("./binsearch_time_cf.png")
+comparisons_cf = comparisons_constant_factors.plot.bar(xticks=[])
+comparisons_cf.figure.savefig("./binsearch_compares_cf.png")
