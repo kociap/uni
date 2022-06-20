@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.12)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/o")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/o")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/o")
+
+project(L2 CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_executable(isort "sort.cpp")
+target_compile_definitions(isort PRIVATE INSERTION_SORT=1)
+add_executable(qsort "sort.cpp")
+target_compile_definitions(qsort PRIVATE QUICK_SORT=1)
+add_executable(msort "sort.cpp")
+target_compile_definitions(msort PRIVATE MERGE_SORT=1)
+add_executable(hsort "sort.cpp")
+target_compile_definitions(hsort PRIVATE HYBRID_SORT=1)
+add_executable(dpqsort "sort.cpp")
+target_compile_definitions(dpqsort PRIVATE DUAL_PIVOT_QUICK_SORT=1)
+add_executable(lingen "lingen.cpp")
+add_executable(rlingen "rlingen.cpp")
+add_executable(randgen "randgen.cpp")

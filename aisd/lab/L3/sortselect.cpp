@@ -5,8 +5,6 @@
 #include <utility>
 #include <vector>
 
-#define USE_SELECT 1
-
 using i64 = long long;
 
 template<typename Random_Access_Iterator, typename Predicate, typename Swap>
