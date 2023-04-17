@@ -1,0 +1,55 @@
+Problem:    e5
+Rows:       8
+Columns:    4
+Non-zeros:  20
+Status:     OPTIMAL
+Objective:  profit = 3632.5 (MAXimum)
+
+   No.   Row name   St   Activity     Lower bound   Upper bound    Marginal
+------ ------------ -- ------------- ------------- ------------- -------------
+     1 output_constraint[1,400]
+                    B            125                         400 
+     2 output_constraint[2,100]
+                    NU           100                         100          2.98 
+     3 output_constraint[3,150]
+                    NU           150                         150          2.45 
+     4 output_constraint[4,500]
+                    NU           500                         500          2.91 
+     5 profit       B         3632.5                             
+     6 manufacturing_time_constraint[1]
+                    B          58.75                          60 
+     7 manufacturing_time_constraint[2]
+                    NU            60                          60          25.2 
+     8 manufacturing_time_constraint[3]
+                    B             35                          60 
+
+   No. Column name  St   Activity     Lower bound   Upper bound    Marginal
+------ ------------ -- ------------- ------------- ------------- -------------
+     1 var_output[1]
+                    B            125             0               
+     2 var_output[2]
+                    B            100             0               
+     3 var_output[3]
+                    B            150             0               
+     4 var_output[4]
+                    B            500             0               
+
+Karush-Kuhn-Tucker optimality conditions:
+
+KKT.PE: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+KKT.PB: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+KKT.DE: max.abs.err = 8.88e-16 on column 1
+        max.rel.err = 9.45e-17 on column 1
+        High quality
+
+KKT.DB: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+End of output

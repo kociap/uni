@@ -1,0 +1,29 @@
+param products, integer, > 0;
+param machines, integer, > 0;
+
+# index, demand [1]
+set prod_demand dimen 2;
+# index, price [$]
+set prod_price dimen 2;
+# index, resource cost [$]
+set prod_cost dimen 2;
+# product index, machine index, time per units [h/kg]
+set manufacturing dimen 3;
+
+# index, cost [$/h]
+set machine_cost dimen 2;
+
+# Use time of machines per product.
+var var_output{1..products} >= 0;
+subject to output_constraint {(i, d) in prod_demand}: var_output[i] <= d;
+
+maximize profit:
+    sum {(i, p) in prod_price, (i, c) in prod_cost} (
+        var_output[i] * (p - c - sum {(j, mc) in machine_cost, (i, j, m) in manufacturing} (mc * m))
+    );
+# Constrain production time to 60h per machine.
+subject to manufacturing_time_constraint {j in 1..machines}: sum {(i, j, m) in manufacturing} (var_output[i] * m) <= 60;
+
+solve;
+
+end;

@@ -1,0 +1,19 @@
+param m, integer, > 0;
+param n, integer, > 0;
+
+param k, integer, > 0;
+
+set containers dimen 2;
+
+var grid{1..m cross 1..n} binary;
+
+minimize cameras:
+    sum {(i, j) in 1..m cross 1..n} grid[i, j];
+subject to container_within_camera_range {(i, j) in containers}:
+    sum{(x, y) in (i - k)..(i + k) cross (j - k)..(j + k): if (x, y) in 1..m cross 1..n then 1} grid[x, y] >= 1;
+subject to camera_must_not_overlap_container{(i, j) in containers}:
+    grid[i, j] = 0;
+
+solve;
+
+end;

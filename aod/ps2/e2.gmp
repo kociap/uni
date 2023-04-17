@@ -1,0 +1,35 @@
+param n, integer, > 0;
+
+set A within {1..n cross 1..n};
+set C dimen 3;
+set T dimen 3;
+
+param T_max > 0;
+
+param src in {1..n};
+param dst in {1..n};
+
+var edges{(i, j) in A} binary;
+var vertices{1..n} >= 0;
+
+minimize path: sum {(i, j, c) in C} c * edges[i, j];
+# Constrain
+# incoming edges - outgoing edges = 1 for destination and
+# outgoing edges - incoming edges = 1 for source.
+subject to dst_edges: sum {(i, dst) in A} edges[i, dst] - sum {(dst, i) in A} edges[dst, i] = 1;
+subject to src_edges: sum {(src, i) in A} edges[src, i] - sum {(i, src) in A} edges[i, src] = 1;
+# Flow out of a vertex must be equal the flow into the vertex.
+subject to edge_difference {u in 1..n: if u != src and u != dst then 1}:
+    sum {(u, v) in A} edges[u, v] = sum {(v, u) in A} edges[v, u];
+# Constrain max time.
+subject to time_constraint: sum {(i, j, t) in T} edges[i, j] * t <= T_max;
+
+solve;
+
+printf "length %s\n", path;
+for {(u, v) in A: if edges[u, v] then 1}
+{
+    printf "%s -> %s\n", u, v;
+}
+
+end;

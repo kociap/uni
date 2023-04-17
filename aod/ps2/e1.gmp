@@ -1,0 +1,20 @@
+param airports, integer, > 0;
+param companies, integer, > 0;
+
+set maximum_supply dimen 2;
+set minimum_demand dimen 2;
+
+set prices dimen 3;
+
+var supply{1..companies cross 1..airports} >= 0;
+subject to demand_constraint {(a, d) in minimum_demand}:
+    sum {c in 1..companies} supply[c, a] >= d;
+subject to supply_constraint {(c, s) in maximum_supply}:
+    sum {a in 1..airports} supply[c, a] <= s;
+
+minimize cost:
+    sum {(c, a, p) in prices} supply[c, a] * p;
+
+solve;
+
+end;

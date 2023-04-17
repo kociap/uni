@@ -1,0 +1,90 @@
+Problem:    e3
+Rows:       25
+Columns:    9
+Non-zeros:  45
+Status:     OPTIMAL
+Objective:  cars_on_duty = 48 (MINimum)
+
+   No.   Row name   St   Activity     Lower bound   Upper bound    Marginal
+------ ------------ -- ------------- ------------- ------------- -------------
+     1 cars_on_duty B             48                             
+     2 overall_minimum[1,1,2]
+                    NL             2             2                           1 
+     3 overall_minimum[2,1,4]
+                    B              7             4               
+     4 overall_minimum[3,1,3]
+                    B              5             3               
+     5 overall_minimum[1,2,3]
+                    NL             3             3                           1 
+     6 overall_minimum[2,2,6]
+                    NL             6             6                       < eps
+     7 overall_minimum[3,2,5]
+                    B              7             5               
+     8 overall_minimum[1,3,5]
+                    NL             5             5                           1 
+     9 overall_minimum[2,3,7]
+                    NL             7             7                       < eps
+    10 overall_minimum[3,3,6]
+                    NL             6             6                       < eps
+    11 overall_maximum[1,1,3]
+                    B              2                           3 
+    12 overall_maximum[2,1,7]
+                    B              7                           7 
+    13 overall_maximum[3,1,5]
+                    NU             5                           5         < eps
+    14 overall_maximum[1,2,5]
+                    B              3                           5 
+    15 overall_maximum[2,2,7]
+                    B              6                           7 
+    16 overall_maximum[3,2,10]
+                    B              7                          10 
+    17 overall_maximum[1,3,8]
+                    B              5                           8 
+    18 overall_maximum[2,3,12]
+                    B              7                          12 
+    19 overall_maximum[3,3,10]
+                    B              6                          10 
+    20 shift_minimum[1,10]
+                    B             10            10               
+    21 shift_minimum[2,20]
+                    NL            20            20                           1 
+    22 shift_minimum[3,18]
+                    NL            18            18                           1 
+    23 district_minimum[1,10]
+                    B             14            10               
+    24 district_minimum[2,14]
+                    B             16            14               
+    25 district_minimum[3,13]
+                    B             18            13               
+
+   No. Column name  St   Activity     Lower bound   Upper bound    Marginal
+------ ------------ -- ------------- ------------- ------------- -------------
+     1 cars[1,1]    B              2             0               
+     2 cars[1,2]    B              3             0               
+     3 cars[1,3]    B              5             0               
+     4 cars[2,1]    B              7             0               
+     5 cars[2,2]    B              6             0               
+     6 cars[2,3]    B              7             0               
+     7 cars[3,1]    B              5             0               
+     8 cars[3,2]    B              7             0               
+     9 cars[3,3]    B              6             0               
+
+Karush-Kuhn-Tucker optimality conditions:
+
+KKT.PE: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+KKT.PB: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+KKT.DE: max.abs.err = 0.00e+00 on column 0
+        max.rel.err = 0.00e+00 on column 0
+        High quality
+
+KKT.DB: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+End of output

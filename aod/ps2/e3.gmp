@@ -1,0 +1,24 @@
+param shifts, integer, > 0;
+param districts, integer, > 0;
+
+set minimum_cars dimen 3;
+set maximum_cars dimen 3;
+set minimum_per_shift dimen 2;
+set minimum_per_district dimen 2;
+
+var cars{1..shifts cross 1..districts} >= 0;
+
+minimize cars_on_duty:
+    sum {(i, j) in 1..shifts cross 1..districts} cars[i, j];
+subject to overall_minimum {(s, d, v) in minimum_cars}:
+    cars[s, d] >= v;
+subject to overall_maximum {(s, d, v) in maximum_cars}:
+    cars[s, d] <= v;
+subject to shift_minimum {(s, v) in minimum_per_shift}:
+    sum {d in 1..districts} cars[s, d] >= v;
+subject to district_minimum {(d, v) in minimum_per_district}:
+    sum {s in 1..shifts} cars[s, d] >= v;
+
+solve;
+
+end;
