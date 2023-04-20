@@ -1,7 +1,15 @@
-*.txt
+# IDE directories
+.vs/
+.vscode/
+
+# SVN repositories
+261924/
+
+# Build directories
+bin/
+build/
+
+# Additional build files
 *.exe
 *.pdb
-261924
-bin
-.vs
-.vscode
+*.ilk
