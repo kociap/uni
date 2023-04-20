@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Hangman</string>
+
+    <string-array name="words">
+        <item>pasta</item>
+        <item>toilet</item>
+        <item>ladle</item>
+        <item>banana</item>
+        <item>orange</item>
+        <item>controller</item>
+        <item>window</item>
+        <item>computer</item>
+        <item>umbrella</item>
+        <item>lamp</item>
+        <item>glasses</item>
+        <item>dishwasher</item>
+        <item>screen</item>
+        <item>balcony</item>
+        <item>pillow</item>
+    </string-array>
+</resources>
