@@ -11,5 +11,5 @@
     <color name="gray">#888</color>
     <color name="blue">#0000FF</color>
     <color name="tile_event_dot">#FC5A5A</color>
-    <color name="tile_event_dot_border">#444444</color>
+    <color name="notification_dot">#444444</color>
 </resources>
