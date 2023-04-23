@@ -29,6 +29,6 @@ object NotificationService {
             .setContentText("You have an upcoming event at " + CalendarUtils.formatTimeLong(date.toLocalTime()))
             .setAutoCancel(true)
         val id: Int = System.currentTimeMillis().toInt()
-        notificationManager.notify(0, builder.build())
+        notificationManager.notify(id, builder.build())
     }
 }

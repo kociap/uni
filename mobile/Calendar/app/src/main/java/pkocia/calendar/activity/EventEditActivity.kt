@@ -42,7 +42,7 @@ class EventEditActivity : AppCompatActivity() {
         val hour = eventTimePicker!!.getHour()
         val minute = eventTimePicker!!.getMinute()
         event!!.time = event!!.time.withHour(hour).withMinute(minute)
-        EventList.add(event!!)
+        EventService.add(event!!)
 
         EventCreatedListener.invoke(event!!)
 

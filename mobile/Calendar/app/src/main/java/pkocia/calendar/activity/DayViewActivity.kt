@@ -47,7 +47,7 @@ class DayViewActivity : AppCompatActivity() {
         val list = ArrayList<HourEvent>()
         for (hour in 0..23) {
             val time = LocalTime.of(hour, 0)
-            val events: ArrayList<Event> = EventList.getEvents(selected, time)
+            val events: ArrayList<Event> = EventService.getEvents(selected, time)
             val hourEvent = HourEvent(time, events)
             list.add(hourEvent)
         }

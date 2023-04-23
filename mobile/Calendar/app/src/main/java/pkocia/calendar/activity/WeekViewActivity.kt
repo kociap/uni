@@ -60,7 +60,7 @@ class WeekViewActivity : AppCompatActivity(), OnItemListener {
 
     private fun setEventAdapater() {
         val selected = Calendar.selectedDate
-        val dailyEvents: ArrayList<Event> = EventList.getEvents(selected)
+        val dailyEvents: ArrayList<Event> = EventService.getEvents(selected)
         val eventAdapter = EventAdapter(applicationContext, dailyEvents)
         eventListView!!.adapter = eventAdapter
     }

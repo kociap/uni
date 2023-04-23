@@ -21,5 +21,6 @@ class Application: android.app.Application() {
         _context = getApplicationContext()
 
         EventCreatedListener.register(mEventNotificationManager)
+        EventService.initialise()
     }
 }

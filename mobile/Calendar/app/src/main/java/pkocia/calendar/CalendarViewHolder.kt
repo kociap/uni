@@ -32,7 +32,7 @@ class CalendarViewHolder(
     }
 
     override fun OnEventCreated(event: Event) {
-        val hasEvents = EventList.hasAnyEventsOnDay(date)
+        val hasEvents = EventService.hasAnyEventsOnDay(date)
         toggleEventDot(hasEvents)
     }
 
@@ -50,7 +50,7 @@ class CalendarViewHolder(
             dayText.setTextColor(Color.LTGRAY)
         }
 
-        val hasEvents = EventList.hasAnyEventsOnDay(date)
+        val hasEvents = EventService.hasAnyEventsOnDay(date)
         toggleEventDot(hasEvents)
     }
 
