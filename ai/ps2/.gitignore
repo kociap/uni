@@ -1,0 +1,11 @@
+CMakeFiles/
+build.ninja
+CMakeCache.txt
+cmake_install.cmake
+.ninja_deps
+.ninja_log
+
+Makefile
+
+ttt_client
+ttt_server
