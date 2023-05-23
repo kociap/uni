@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFb1fc67</color>
+    <color name="purple_700">#FF63c600</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="lightGray">#EEE</color>
+    <color name="gray">#888</color>
+    <color name="blue">#0000FF</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="l_grey">#BCC6C6</color>
+    <color name="d_grey">#949696</color>
+    <color name="primary">#69d300</color>
+    <color name="primary_dark">#5fbf00</color>
+    <color name="accept">#69d300</color>
+    <color name="decline">#ce2727</color>
+    <color name="background">#0F0F0F</color>
+    <color name="camera_button_default">#B0B0B0</color>
+    <color name="camera_button_pressed">#808080</color>
+</resources>
