@@ -396,20 +396,29 @@ int main(int const argc, char const* const* const argv) {
       Problem_P2P& problem = result_problem.value();
       for(auto const& [src, dst]: problem.queries) {
 #if defined(ALGORITHM_DIJKSTRA)
-        std::vector<i64> result =
-          shortest_path_dijkstra(graph, graph.vertices[src - 1]);
-        fprintf(output_stream, "d %d %d %lld\n", src, dst, result[dst - 1]);
+        Result result = shortest_path_dijkstra(graph, graph.vertices[src - 1]);
 #elif defined(ALGORITHM_DIAL)
-        std::vector<i64> result =
-          shortest_path_dial(graph, graph.vertices[src - 1]);
-        fprintf(output_stream, "d %d %d %lld\n", src, dst, result[dst - 1]);
+        Result result = shortest_path_dial(graph, graph.vertices[src - 1]);
 #elif defined(ALGORITHM_RADIX)
-        std::vector<i64> result =
-          shortest_path_radix(graph, graph.vertices[src - 1]);
-        fprintf(output_stream, "d %d %d %lld\n", src, dst, result[dst - 1]);
+        Result result = shortest_path_radix(graph, graph.vertices[src - 1]);
 #else
   #error "algorithm not selected"
 #endif
+        fprintf(output_stream, "d %d %d %lld\n", src, dst,
+                result.distances[dst - 1]);
+        // i32 current = dst - 1;
+        // while(true) {
+        //   i32 const parent = result.parents[current];
+        //   if(parent == -1) {
+        //     break;
+        //   }
+        //   printf("%d -> %d chosen out of ", parent, current);
+        //   for(Edge const edge: graph.vertices[parent].edges) {
+        //     printf("%lld> %d; ", edge.weight, edge.dst);
+        //   }
+        //   printf("\n");
+        //   current = parent;
+        // }
       }
 
     } break;
@@ -424,14 +433,11 @@ int main(int const argc, char const* const* const argv) {
       timer.start();
       for(i32 const src: problem.sources) {
 #if defined(ALGORITHM_DIJKSTRA)
-        std::vector<i64> result =
-          shortest_path_dijkstra(graph, graph.vertices[src - 1]);
+        Result result = shortest_path_dijkstra(graph, graph.vertices[src - 1]);
 #elif defined(ALGORITHM_DIAL)
-        std::vector<i64> result =
-          shortest_path_dial(graph, graph.vertices[src - 1]);
+        Result result = shortest_path_dial(graph, graph.vertices[src - 1]);
 #elif defined(ALGORITHM_RADIX)
-        std::vector<i64> result =
-          shortest_path_radix(graph, graph.vertices[src - 1]);
+        Result result = shortest_path_radix(graph, graph.vertices[src - 1]);
 #else
   #error "algorithm not selected"
 #endif

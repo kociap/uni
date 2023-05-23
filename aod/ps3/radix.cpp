@@ -1,8 +1,9 @@
 #include <graph.hpp>
 
+#include <array>
+#include <deque>
 #include <math.h>
 #include <stdio.h>
-#include <vector>
 
 [[nodiscard]] static i32 min(i32 a, i32 b) {
   return a < b ? a : b;
@@ -17,64 +18,35 @@ struct Node {
   i32 label;
 };
 
-struct Bucket {
-public:
-  using value_t = Node;
-
-  std::vector<value_t> values;
-  i32 high;
-  i32 low;
-
-  [[nodiscard]] i32 get_width() const {
-    return high - low + 1;
-  }
-};
-
 struct Radix_Heap {
 public:
-  using bucket_t = Bucket;
-  using value_t = Bucket::value_t;
+  using bucket_t = std::vector<Node>;
+  using value_t = Vertex const*;
 
 private:
-  std::vector<bucket_t> _buckets;
+  constexpr static i32 bucket_count = sizeof(i32) * 8 + 1;
+  std::array<bucket_t, bucket_count> _buckets = {};
+  std::array<i32, bucket_count> _bucket_minimum;
+  i32 _least = 0;
   i32 _size = 0;
 
 public:
-  Radix_Heap(i32 const max_label) {
-    i32 const bucket_count = ceil(log2(max_label + 1));
-    _buckets.resize(bucket_count);
+  Radix_Heap() {
+    _bucket_minimum.fill(maximum_i32);
   }
 
   void insert(Vertex const* const vertex, i32 const label) {
     _size += 1;
-    for(bucket_t& bucket: _buckets) {
-      if(label >= bucket.low) {
-        bucket.values.push_back(Node(vertex, label));
-        return;
-      }
-    }
-    printf("error: no bucket found for label %d\n", label);
+    i32 const bucket = find_bucket(label);
+    _buckets[bucket].push_back(Node(vertex, label));
+    _bucket_minimum[bucket] = min(_bucket_minimum[bucket], label);
   }
 
-  Vertex const* extract() {
+  value_t extract() {
     _size -= 1;
-    bucket_t* non_empty = nullptr;
-    for(bucket_t& bucket: _buckets) {
-      if(bucket.values.size() > 0) {
-        non_empty = &bucket;
-        break;
-      }
-    }
-
-    // non_empty is not a nullptr at this point unless the user violated our
-    // invariants and called extract when there are 0 elements in the heap.
-    if(non_empty->get_width() != 1) {
-      redistribute(non_empty);
-      non_empty = &_buckets[0];
-    }
-
-    value_t value = non_empty->values.back();
-    non_empty->values.pop_back();
+    pull();
+    Node value = _buckets[0].back();
+    _buckets[0].pop_back();
     return value.vertex;
   }
 
@@ -83,46 +55,41 @@ public:
   }
 
 private:
-  void redistribute(bucket_t* const bucket) {
-    // Find min label.
-    i32 min_label = bucket->values[0].label;
-    for(value_t const& value: bucket->values) {
-      min_label = min(min_label, value.label);
+  void pull() {
+    if(_buckets[0].size() > 0) {
+      return;
     }
 
-    i32 const index = bucket - _buckets.data();
-    i32 increment = 0;
-    i32 width = 1;
-    i32 low = min_label;
-    for(i32 i = 0; i < index; i += 1) {
-      bucket_t& bucket = _buckets[i];
-      bucket.low = low;
-      bucket.high = low + width - 1;
-      low += width;
-      width += increment;
-      increment *= 2;
-      if(increment == 0) {
-        increment += 1;
-      }
+    // Find non-empty bucket.
+    i32 i = 1;
+    while(_buckets[i].size() == 0) {
+      i += 1;
     }
 
-    for(value_t& v: bucket->values) {
-      for(bucket_t& b: _buckets) {
-        if(v.label >= b.low) {
-          b.values.push_back(std::move(v));
-          break;
-        }
-      }
+    _least = _bucket_minimum[i];
+
+    for(Node& v: _buckets[i]) {
+      i32 const bucket = find_bucket(v.label);
+      _buckets[bucket].push_back(v);
+      _bucket_minimum[bucket] = min(_bucket_minimum[bucket], v.label);
     }
-    _buckets.erase(_buckets.begin() + index);
+    _buckets[i].clear();
+    _bucket_minimum[i] = maximum_i32;
+  }
+
+  [[nodiscard]] i32 find_bucket(i32 const value) {
+    constexpr i32 bits = sizeof(i32) * 8;
+    i32 const zeros = __builtin_clz(value ^ _least);
+    return value == _least ? 0 : bits - zeros;
   }
 };
 
-std::vector<i64> shortest_path_radix(Graph const& graph, Vertex const& source) {
+Result shortest_path_radix(Graph const& graph, Vertex const& source) {
   // We initialise to maximum value of i32 to indicate an infinity. We cannot
   // use maximum value of i64 becasue that will lead to overflow and erroneous
   // behaviour in the later part of the algorithm.
   std::vector<i64> distances(graph.vertices.size(), maximum_i32);
+  std::vector<i32> parents(graph.vertices.size(), -1);
   std::vector<char> visited(graph.vertices.size(), false);
   distances[source.index] = 0;
 
@@ -133,7 +100,7 @@ std::vector<i64> shortest_path_radix(Graph const& graph, Vertex const& source) {
     }
   }
 
-  Radix_Heap heap(max_weight);
+  Radix_Heap heap;
   heap.insert(&source, 0);
   while(heap.size() > 0) {
     Vertex const* const vertex = heap.extract();
@@ -148,10 +115,11 @@ std::vector<i64> shortest_path_radix(Graph const& graph, Vertex const& source) {
       i32 const updated_distance = distance + edge.weight;
       if(updated_distance < distances[edge.dst]) {
         distances[edge.dst] = updated_distance;
+        parents[edge.dst] = index;
         Vertex const* const dst = &graph.vertices[edge.dst];
         heap.insert(dst, updated_distance);
       }
     }
   }
-  return distances;
+  return Result{std::move(distances), std::move(parents)};
 }
