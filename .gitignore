@@ -13,3 +13,21 @@ build/
 *.exe
 *.pdb
 *.ilk
+
+# Ignored courses
+analiza/
+algebra/
+fizyka/
+chemia/
+grafika_inzynierska/
+historia_techniki/
+english/
+human_sciences/
+law/
+lab_fizyka/
+discrete/
+LSF/
+
+# Additional directories
+people/
+memes/
