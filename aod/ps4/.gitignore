@@ -10,3 +10,4 @@ plot.py
 
 # Data and arguments
 *.txt
+!CMakeLists.txt
