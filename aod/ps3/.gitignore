@@ -1,0 +1,18 @@
+.vscode/
+build/
+
+# Artefacts
+dial
+dijkstra
+radix
+
+# Test data
+data/
+
+# Run script
+run.sh
+# Plotting script
+plot.py
+
+# Charts
+*.png
