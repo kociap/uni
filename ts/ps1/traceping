@@ -1,0 +1,47 @@
+#!/bin/bash
+
+function help() {
+    echo "traceping [options] destination"
+    echo ""
+    echo "OPTIONS"
+    echo "  -h, --help  Display help."
+    echo "  -s, --size  Set the size of the packet in bytes. The default is 56 resulting"
+    echo "              in a total of 64 ICMP bytes when combined with the 8 byte ICMP header."
+    exit 1
+}
+
+function error() {
+    echo "error: $1"
+    help
+}
+
+# -o is required.
+parsed_arguments=$(getopt -n traceping --long help,size: -o h,s: -- "$@")
+if [[ "$?" == "1" ]]; then
+    help
+fi
+
+eval set -- "$parsed_arguments"
+size=56
+while :
+do
+    case "$1" in
+        --)           shift; break;;
+        --size|-s)    size=$2; shift 2;;
+        --help|-h)    help;;
+        *)            error "invalid option: $1.";;
+    esac
+done
+
+if [ -z $1 ]; then
+    error "missing destination"
+fi
+
+for i in {1..255}; do
+    result=$(ping -s $size -c 1 -t $i -W 1 $1)
+    if [[ "$?" == "0" ]]; then
+        ttl=$(echo $result | grep -oP "ttl=\d+" | cut -c 5-)
+        echo "route length to $1 is $i (return TTL $ttl)"
+        break
+    fi
+done
