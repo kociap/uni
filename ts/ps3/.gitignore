@@ -1,0 +1,8 @@
+# Artefacts
+csma
+decoder
+encoder
+
+# Data files
+*.txt
+!CMakeLists.txt
