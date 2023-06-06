@@ -1,0 +1,12 @@
+# Artefacts
+bipartite
+edmondskarp
+
+# Plotting script
+plot.py
+
+# Charts
+*.png
+
+# Data and arguments
+*.txt
