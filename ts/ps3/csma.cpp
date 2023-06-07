@@ -8,15 +8,28 @@
 #include <stdio.h>
 #include <vector>
 
-static i32 generate_random() {
+[[nodiscard]] static i32 generate_random() {
   static std::random_device rd;
   static std::mt19937 g(rd());
   static std::uniform_int_distribution<i32> d(8, 64);
   return d(g);
 }
 
-constexpr u32 signal_jam = 0xF0000000;
-constexpr u32 signal_noise = 0x0FFFFFFF;
+template<typename T>
+[[nodiscard]] T min(T a, T b) {
+  return a < b ? a : b;
+}
+
+[[nodiscard]] static i32 calculate_wait_time(i32 const attempt) {
+  i32 const exponent = min(attempt, 10);
+  std::random_device rd;
+  std::mt19937 g(rd());
+  std::uniform_int_distribution<i32> d(0, 1 << exponent);
+  return d(g);
+}
+
+constexpr u32 signal_jam = 0x00000F00;
+constexpr u32 signal_noise = 0x000000FF;
 
 class Medium {
 private:
@@ -106,7 +119,11 @@ public:
           value |= signal;
         }
       }
-      printf("%X ", value);
+      if(value == 0) {
+        printf("    ");
+      } else {
+        printf("%03X ", value);
+      }
     }
     printf("\n");
   }
@@ -165,9 +182,9 @@ public:
   void tick() {
     if(transmission.dst == -1) {
       u32 const value = medium->read(id);
-      if(value == id) {
-        printf("station %d receiving transmission\n", id);
-      }
+      // if(value == id) {
+      // printf("station %d receiving transmission\n", id);
+      // }
     } else {
       if(wait_time > 0) {
         wait_time -= 1;
@@ -195,11 +212,10 @@ public:
   }
 
   void backoff() {
-    wait_time = generate_random();
+    wait_time = length * calculate_wait_time(attempts);
     attempts += 1;
     began_transmission = false;
     transmission.len = length * 2;
-    medium->transmit(id, signal_jam);
     if(attempts >= max_attempts) {
       reset();
     }
@@ -217,7 +233,6 @@ private:
     if(medium->read(id) == 0) {
       began_transmission = true;
       medium->transmit(id, transmission.dst);
-      return;
     } else {
       wait_time = generate_random();
       attempts += 1;
@@ -230,7 +245,7 @@ private:
 };
 
 int main() {
-  constexpr i32 wire_length = 50;
+  constexpr i32 wire_length = 35;
   Medium medium(wire_length);
   std::vector<Station> stations;
   for(i32 i = 1; i < wire_length; i += 1) {
@@ -239,13 +254,13 @@ int main() {
   }
 
   stations[10].transmit(5);
-  stations[26].transmit(3);
-  stations[27].transmit(1);
+  // stations[26].transmit(3);
+  // stations[27].transmit(1);
   stations[31].transmit(8);
   stations[4].transmit(30);
-  stations[40].transmit(41);
-  stations[41].transmit(1);
-  stations[7].transmit(2);
+  // stations[40].transmit(41);
+  // stations[41].transmit(1);
+  // stations[7].transmit(2);
 
   for(i32 tick = 0; tick < 512; tick += 1) {
     medium.tick();
