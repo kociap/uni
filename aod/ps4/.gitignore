@@ -2,9 +2,6 @@
 bipartite
 edmondskarp
 
-# Plotting script
-plot.py
-
 # Charts
 *.png
 

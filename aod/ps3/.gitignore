@@ -11,8 +11,6 @@ data/
 
 # Run script
 run.sh
-# Plotting script
-plot.py
 
 # Charts
 *.png
