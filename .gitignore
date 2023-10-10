@@ -2,6 +2,9 @@
 .vs/
 .vscode/
 
+# clangd
+.cache/
+
 # SVN repositories
 261924/
 
