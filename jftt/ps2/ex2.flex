@@ -12,12 +12,14 @@ ATTRIBUTE {NAME}{WS}?"="{WS}?{VALUE}
 
 "<!--"({CHAR}|("-"{CHAR}))*"-->" { }
 
-"<![CDATA["(.|\n)*"]]>" { printf("*2nd rule*%s", yytext); }
-"<?"(.|\n)*"?>" { printf("*6th rule*%s", yytext); }
+"<![CDATA["(.|\n)*"]]>" { printf("%s", yytext); }
+"<?"(.|\n)*"?>" { printf("%s", yytext); }
 
-"<"{NAME}({WS}{ATTRIBUTE})*{WS}?"/>" { printf("*3rd rule*%s", yytext); }
-"<"{NAME}({WS}{ATTRIBUTE})*{WS}?">" { printf("*3rd rule*%s", yytext); }
-"</"{NAME}{WS}?">" {printf("*4th rule*%s", yytext); }
+"<"{NAME}({WS}{ATTRIBUTE})*{WS}?"/>" { printf("%s", yytext); }
+"<"{NAME}({WS}{ATTRIBUTE})*{WS}?">" { printf("%s", yytext); }
+"</"{NAME}{WS}?">" {printf("%s", yytext); }
+
+"<!"[A-Z][^>]*">" { printf("%s", yytext); }
 
 %%
 
