@@ -1,0 +1,13 @@
+images/
+results/
+tests/
+
+mst
+tsp
+random
+
+*.aux
+*.log
+*.toc
+*.pdf
+

@@ -1,0 +1,156 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[left = 3cm, right = 3cm]{geometry}
+
+\begin{document}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}cccc@{}}
+\toprule
+Test    & 100x10 & 20x50  & 1000   \\ \midrule
+xqf131  & 4359   & 4253   & 4086   \\ \midrule
+xqg237  & 11848  & 11591  & 11442  \\ \midrule
+pma343  & 34197  & 33385  & 32118  \\ \midrule
+pka379  & 35408  & 34624  & 33799  \\ \midrule
+bcl380  & 24757  & 24291  & 23883  \\ \midrule
+pbl395  & 19160  & 18885  & 18430  \\ \midrule
+pbk411  & 21672  & 21239  & 20650  \\ \midrule
+pbn423  & 21967  & 21583  & 21226  \\ \midrule
+pbm436  & 22475  & 22156  & 21833  \\ \midrule
+xql662  & 51216  & 50591  & 49560  \\ \bottomrule
+icw1483 & 149074 & 147809 & 145786 \\ \midrule
+irw2802 & 428043 & 424986 & 420368 \\ \midrule
+\end{tabular}
+\caption{The average lengths of the TSP cycle across 100, 20 and 1000 random shuffles.}
+\label{tab:random}
+\end{table}
+
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_xqf131}
+  \caption{MST xqf131, weight = 474.}
+  \label{fig:mst_xqf131}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_xqg237}
+  \caption{MST xqg237, weight = 897.}
+  \label{fig:mst_xqg237}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_pma343}
+  \caption{MST pma343, weight = 1179.}
+  \label{fig:mst_pma343}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_pka379}
+  \caption{MST pka379, weight = 1151.}
+  \label{fig:mst_pka379}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_bcl380}
+  \caption{MST bcl380, weight = 1444.}
+  \label{fig:mst_bcl380}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_pbl395}
+  \caption{MST pbl395, weight = 1124.}
+  \label{fig:mst_pbl395}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_pbk411}
+  \caption{MST pbk411, weight = 1180.}
+  \label{fig:mst_pbk411}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_pbn423}
+  \caption{MST pbn423, weight = 1201.}
+  \label{fig:mst_pbn423}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_pbm436}
+  \caption{MST pbm436, weight = 1269.}
+  \label{fig:mst_pbm436}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_xql662}
+  \caption{MST xql662, weight = 2240.}
+  \label{fig:mst_xql662}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_icw1483}
+  \caption{MST icw1483, weight = 4015.}
+  \label{fig:mst_icw1483}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/mst_irw2802}
+  \caption{MST irw2802, weight = 7690.}
+  \label{fig:mst_irw2802}
+\end{figure}
+
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_xqf131}
+  \caption{TSP xqf131, weight = 788.}
+  \label{fig:tsp_xqf131}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_xqg237}
+  \caption{TSP xqg237, weight = 1488.}
+  \label{fig:tsp_xqg237}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_pma343}
+  \caption{TSP pma343, weight = 1881.}
+  \label{fig:tsp_pma343}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_pka379}
+  \caption{TSP pka379, weight = 1794.}
+  \label{fig:tsp_pka379}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_bcl380}
+  \caption{TSP bcl380, weight = 2457.}
+  \label{fig:tsp_bcl380}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_pbl395}
+  \caption{TSP pbl395, weight = 1877.}
+  \label{fig:tsp_pbl395}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_pbk411}
+  \caption{TSP pbk411, weight = 1951.}
+  \label{fig:tsp_pbk411}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_pbn423}
+  \caption{TSP pbn423, weight = 2003.}
+  \label{fig:tsp_pbn423}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_pbm436}
+  \caption{TSP pbm436, weight = 2109.}
+  \label{fig:tsp_pbm436}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_xql662}
+  \caption{TSP xql662, weight = 3591.}
+  \label{fig:tsp_xql662}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_icw1483}
+  \caption{TSP icw1483, weight = 6841.}
+  \label{fig:tsp_icw1483}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=\linewidth]{./images/tsp_irw2802}
+  \caption{TSP irw2802, weight = 13002.}
+  \label{fig:tsp_irw2802}
+\end{figure}
+
+\end{document}
