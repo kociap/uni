@@ -1,0 +1,345 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{courier}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{mathtools}
+\usepackage{makecell}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+
+\definecolor{color_keyword}{rgb}{0.8, 0.0, 0.0}
+\definecolor{color_types}{rgb}{0.0, 0.6, 0.0}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\newcommand{\R}{\mathbb{R}}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+\onehalfspacing
+
+\lstdefinelanguage{Julia}
+{
+  morekeywords = [1]{abstract,break,case,catch,const,continue,do,else,elseif,
+      end,export,false,for,function,immutable,import,importall,if,in,
+      macro,module,otherwise,quote,return,switch,true,try,type,typealias,
+      using,while},
+  morekeywords = [2]{Float64},
+  sensitive    = true,
+  alsoother    = {$},
+  morecomment  = [l]\#,
+  morecomment  = [n]{\#=}{=\#},
+  morestring   = [s]{"}{"},
+  morestring   = [m]{'}{'},
+}[keywords,comments,strings]
+
+\lstset{
+    language         = Julia,
+    basicstyle       = \ttfamily\footnotesize,
+    keywordstyle     = [1]{\bfseries\color{color_keyword}},
+    keywordstyle     = [2]{\bfseries\color{color_types}},
+    stringstyle      = \color{magenta},
+    showspaces       = false,
+    commentstyle     = \color{ForestGreen},
+    showstringspaces = false,
+    tabsize          = 2,
+    breaklines       = true,
+    captionpos       = t,
+    frame            = tb,
+}
+
+\title{
+  Obliczenia Naukowe\\
+  \begin{center}\Large Lista 3\end{center}
+}
+\author{Piotr Kocia}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Problems 1-3}
+We are to implement three different methods of finding roots of functions -
+bisection, Newton-Raphson (tangent) and secant. The implementations of
+particular functions are provided in Listing \ref{lst_1}, Listing \ref{lst_2}
+and Listing \ref{lst_3}. The full implementation in Julia along with tests is
+provided in \code{solvers.jl} and \code{tests.jl}.
+
+\subsection{Bisection Method}
+The bisection method is an iterative algorithm for finding the roots of a
+function. The principle is to divide the search interval into two and then
+choose the next interval based on the sign of the function at the ends of the
+interval and the midpoint. The precondition is that, for a given initial
+interval $[a ,b]$ the function $f$ satisfies $f(a)f(b) < 0$, meaning the
+function has different sign at $f(a)$ and $f(b)$. The implementation is provided
+in Listing \ref{lst_1}.
+
+\begin{lstlisting}[language=Julia, caption=Implementation of the bisection method., label = lst_1]
+function solve_bisect(f, a::Float64, b::Float64, delta::Float64, epsilon::Float64)
+  fa::Float64 = f(a)
+  fb::Float64 = f(b)
+  e::Float64 = b - a
+  if sign(fa) == sign(fb)
+    return Nothing, Nothing, Nothing, 1
+  end
+  it = 1
+  r::Float64 = a + e
+  v::Float64 = f(r)
+  while true
+    e /= 2
+    r = a + e
+    v = f(r)
+    if abs(e) < delta || abs(v) < epsilon
+      return r, v, it, 0
+    end
+    if sign(v) != sign(fa)
+      b = r
+      fb = v
+    else
+      a = r
+      fa = v
+    end
+    it += 1
+  end
+end
+\end{lstlisting}
+
+\subsection{Newton-Raphson Method}
+The Newton-Raphson named after Isaac newton and Joseph Raphson is an iterative
+root-finding algorithm. The requirement is that to find the roots of a function
+$f$, it must be differentiable in the search interval. Mathematically, this method finds successively better approximations
+$$
+x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+$$
+with $x_0$ being the initial guess. The caveat of this method is that it is
+susceptible to significant error introduced by division if $f'$ is close to 0,
+as well as not being able to find the root due to the locality of the method.
+The implementation is provided in Listing \ref{lst_2}.
+
+\begin{lstlisting}[language = Julia, caption = Implementation of the Newton-Raphson (tangent) method., label = lst_2]
+function solve_newton(f, df, x0::Float64, delta::Float64, epsilon::Float64, max_iterations::Int)
+  v::Float64 = f(x0)
+
+  if abs(v) < epsilon
+    return x0, v, 0, 0
+  end
+
+  for i in 1:max_iterations
+    dfx0::Float64 = df(x0)
+    if abs(dfx0) < eps(Float64)
+      return x0, v, i, 2
+    end
+    x1::Float64 = x0 - (v / dfx0)
+    v = f(x1)
+    if abs(x1 - x0) < delta || abs(v) < epsilon
+      return x1, v, i, 0
+    end
+    x0 = x1
+  end
+
+  return x0, v, max_iterations, 1
+end
+\end{lstlisting}
+
+\subsection{Secant Method}
+Similarly to the Newton-Raphson method, this method is an iterative root-finding
+algorithm, however, it has an advantage over Newton's method as it does not
+require the derivative. The idea behind this method is to use a line (secant)
+through two successive approximations $x_n$ and $x_{n+1}$. This may be expressed
+as
+$$
+x_{n+1} = \frac{x_{n-1}f(x_n) - x_n f(x_{n-2})}{f(x_n) - f(x_{n-1})}
+$$
+Similarly to Newton's method, secant method is local, hence it relies heavily on
+the initial guesses. The implementation is provided in Listing \ref{lst_3}.
+
+\begin{lstlisting}[language = Julia, caption = Implementation of the secant method., label = lst_3]
+function solve_secant(f, x0::Float64, x1::Float64, delta::Float64, epsilon::Float64, max_iterations::Int)
+  fx0::Float64 = f(x0)
+  fx1::Float64 = f(x1)
+  for i in 1:max_iterations
+    if abs(fx1) > abs(fx0)
+      x0, x1 = x1, x0
+      fx0, fx1 = fx1, fx0
+    end
+    s::Float64 = (x0 - x1) / (fx0 - fx1)
+    x0 = x1
+    fx0 = fx1
+    x1 = x1 - fx1 * s
+    fx1 = f(x1)
+    if abs(x0 - x1) < delta || abs(fx1) < epsilon
+      return x1, fx1, i, 0
+    end
+  end
+
+  return x1, fx1, max_iterations, 1
+end
+\end{lstlisting}
+
+\section{Problem 4}
+We are to find the roots of the function $f(x) = \sin x - \frac{1}{4}x^2$ using
+the three methods with parameters:
+\begin{itemize}
+\item bisection in $[1.5, 2]$ with $\delta = 0.5 \cdot 10^{-5}, \epsilon 0.5 \cdot 10^{-5}$,
+\item Newton's with $x_0 = 1.5, \delta = 0.5 \cdot 10^{-5}, \epsilon 0.5 \cdot 10^{-5}$,
+\item Newton's with $x_0 = 1, x_1 = 2, \delta = 0.5 \cdot 10^{-5}, \epsilon 0.5 \cdot 10^{-5}$.
+\end{itemize}
+
+\subsection{Results}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccc@{}}
+\toprule
+        & Bisection              & Newton                 & Secant               \\ \midrule
+x       & 1.9337539672851562     & 1.933753779789742      & 1.933753644474301    \\ \midrule
+f(x)    & -2.7027680138402843e-7 & -2.2423316314856834e-8 & 1.564525129449379e-7 \\ \midrule
+i       & 16                     & 4                      & 4                    \\ \midrule
+error   & 0                      & 0                      & 0                    \\ \bottomrule
+\end{tabular}
+\caption{Calculated root of the function $f(x) = \sin x - \frac{1}{4}x^2$.}
+\label{tab:ex4}
+\end{table}
+
+\subsection{Conclusions}
+All methods successfully have found an approximate solution. The Newton's method
+has provided the most accurate result.
+
+The bisection method performed 16 iterations as opposed to 4 as is the case with
+other methods. This is due to bisection method converging linearly, while the
+Newton's method converges quadratically and the secant method converges
+superlinearly with an order of convergence of around 1.618.
+
+\section{Problem 5}
+Using the bisection method find the intersection point of $f(x) = 3x$ and $g(x)
+= e^x$.
+
+\subsection{Solution}
+We are to find the intersection points of the functions $f(x) = 3x$ and $g(x) =
+e^x$, hence we may transform the problem into finding roots of the function
+$h(x) = e^x - 3x$. We note that the function may have two roots and confirm our
+suspicion by calculating the derivative $h'(x) = e^x - 3$. We then find the
+point where $h' = 0$ ($x \approx 1.0986$), which is the (global) minimum, and
+verify that the function indeed has two roots in the interval $[0.5, 1.75]$. We
+then use the bisection method to calculate the roots dividing the interval into
+two at the minimum.
+
+\subsection{Results}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccc@{}}
+\toprule
+         & $x$               & $f(x)$                & Iterations \\ \midrule
+1st root & 0.619106201171875 & -5.132706900767836e-5 & 12         \\ \midrule
+2nd root & 1.512108447265625 & -4.010533798570748e-5 & 12         \\ \bottomrule
+\end{tabular}
+\caption{Calculated roots of the function $h(x) = e^x - 3x$.}
+\label{tab:ex5}
+\end{table}
+
+\subsection{Conclusions}
+We conclude that the functions $f(x) = 3x$ and $g(x) = e^x$ intersect at the
+points $x \approx 0.6191$ and $x \approx 1.5121$.
+
+\section{Problem 6}
+Find the roots of $f_1(x) = e^{1-x} - 1$ and $f_2(x) = xe^{-x}$ using bisection, Newton and secant methods.
+
+\subsection{Solution}
+We use parameters that are close to the exact root to obtain good results. The
+function $f_1$ has an exact root at $x = 1$, $f_2$ has an exact root at $x = 0$.
+
+\subsection{Results}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+Method & Parameters                          & $x$                & $f(x)$ & i \\ \midrule
+B & $[0,2]$               & 1.0                & 0.0 & 1 \\ \midrule
+B & $[0,3]$               & 1.0000076293945312 & -7.6293654275305656e-6 & 17 \\ \midrule
+N & $x_0 = -1.0$             & 0.9999922654776594 & 7.734552252003368e-6 & 5 \\ \midrule
+N & $x_0 = 0.0$              & 0.9999984358892101 & 1.5641120130194253e-6 & 4 \\ \midrule
+N & $x_0 = 0.9$              & 0.999999999931772  & 6.822808984452422e-11 & 3 \\ \midrule
+N & $x_0 = 1.0$              & 1.0                & 0.0 & 0 \\ \midrule
+N & $x_0 = 1.1$              & 0.99999999991094   & 8.906009263398573e-11 & 3 \\ \midrule
+S & $x_0 = 0.0, x_1 = 0.5$   & 0.9999998133327657 & 1.8666725165594755e-7 & 5 \\ \midrule
+S & $x_0 = 0.0, x_1 = 2.0$   & 1.0000017597132702 & -1.7597117218937086e-6 & 6 \\ \bottomrule
+\end{tabular}
+\caption{Calculated roots of the function $f_1(x) = e^{1-x}-1$. B - Bisection, N - Newton, S - Secant.}
+\label{tab:ex6_1}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+Method & Parameters                         & $x$                & $f(x)$ & i \\ \midrule
+B & $[-1,1]$              & 0.0 & 0.0 & 1 \\ \midrule
+B & $[-2,2]$              & 0.0 & 0.0 & 1 \\ \midrule
+B & $[-0.1,0.2]$          & 0.0 & 0.0 & 1 \\ \midrule
+N & $x_0 = -1.0$             & -3.0642493416461764e-7 & -3.0642502806087233e-7 & 5 \\ \midrule
+N & $x_0 = -0.9$             & -4.179471505818752e-8 & -4.179471680498576e-8 & 5 \\ \midrule
+N & $x_0 = -0.1$             & -6.707074105306854e-9 & -6.7070741502916976e-9 & 3 \\ \midrule
+N & $x_0 = 0.0$              & 0.0 & 0.0 & 0 \\ \midrule
+N & $x_0 = 0.1$              & -1.4906619716777104e-8 & -1.490661993898442e-8 & 3 \\ \midrule
+N & $x_0 = 0.9$              & -1.302601427744421e-7 & -1.30260159742148e-7 & 15 \\ \midrule
+S & $x_0 = -1.0, x_1 = -0.5$ & -1.2229958402039555e-7 & -1.2229959897758473e-7 & 6 \\ \midrule
+S & $x_0 = 1.0, x_1 = 0.5$   & 8.76690178927691e-8 & 8.766901020691273e-8 & 9 \\ \midrule
+S & $x_0 = 0.0, x_1 = 2.0$   & 0.0 & 0.0 & 1 \\ \bottomrule
+\end{tabular}
+\caption{Calculated roots of the function $f_2(x) = xe^{-x}$. B - Bisection, N - Newton, S - Secant.}
+\label{tab:ex6_2}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+Parameters    & x & f(x) & i & error \\ \midrule
+$x_0 = 2.0$   & 0.9999999810061002 & 1.8993900008368314e-8 & 5 & 0 \\ \midrule
+$x_0 = 5.0$   & 0.9999996427095682 & 3.572904956339329e-7 & 54 & 0 \\ \midrule
+$x_0 = 100.0$ & 100.0 & -1.0 & 1 & 2 \\ \midrule
+\end{tabular}
+\caption{$f_1$.}
+\label{tab:ex6_3}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+Parameters    & x & f(x) & i & error \\ \midrule
+$x_0 = 1.0$   & 1.0 & 0.36787944117144233 & 1 & 2 \\ \midrule
+$x_0 = 2.0$   & 14.398662765680003 & 8.03641534421721e-6 & 10 & 0 \\ \midrule
+$x_0 = 5.0$   & 15.194283983439147 & 3.827247505782993e-6 & 9 & 0 \\ \midrule
+$x_0 = 100.0$ & 100.0 & 3.7200759760208363e-42 & 0 & 0 \\ \bottomrule
+\end{tabular}
+\caption{$f_2$.}
+\label{tab:ex6_4}
+\end{table}
+
+\subsection{Conclusions}
+For the given parameters, all three methods return correct approximations of the
+roots, as may be seen in Table \ref{tab:ex6_1} and Table \ref{tab:ex6_2}.
+
+If we change the parameters to be "bad", the Newton's method fails with an error
+or an incorrect result (satisfies the $\delta$ or $\epsilon$ constraints, but
+returns incorrect value).
+
+\section{Closing thoughts}
+As it has been shown, none of the presented methods is foolproof. They are
+highly dependent on the initial parameters as even a slight variation might
+result in them never converging to the correct result. It is also important to
+account for numerical errors such as division by small numbers, as is the case
+with Newton's and secant methods. To obtain accurate results, prior analysis of
+a function is highly recommended, sometimes even required.
+
+\end{document}
