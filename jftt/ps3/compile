@@ -1,0 +1,4 @@
+#!/bin/bash
+flex calc.l
+bison -H --no-lines calc.y
+clang++ -I./ -O3 -o calc calc.cpp calc.tab.c lex.yy.c
