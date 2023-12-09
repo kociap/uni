@@ -1,0 +1,10 @@
+# Environment directories
+.cache/
+.vscode/
+
+# Build directories
+build/
+
+# Miscellaneous directories and files
+data/
+result.out
