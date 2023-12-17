@@ -10,11 +10,14 @@
 [[nodiscard]] static Array<Pixel> unfilter(Slice<Pixel const> const low,
                                            Slice<Pixel const> const high)
 {
+  STDOUT_Stream stdout;
   Array<Pixel> unfiltered{reserve, low.size()};
   for(auto [lp, hp]: Range(Zip_Iterator(low.begin(), high.begin()),
                            Zip_Iterator(low.end(), high.end()))) {
-    Pixel const p = hp + lp; // 1/2 p - 1/2 prev + 1/2 p + 1/2 prev
-    unfiltered.push_back(p);
+    Pixel const p1 = hp - lp; // 1/2 p - 1/2 prev + 1/2 p + 1/2 prev
+    Pixel const p2 = hp + lp; // 1/2 p - 1/2 prev + 1/2 p + 1/2 prev
+    unfiltered.push_back(p1.normalised());
+    unfiltered.push_back(p2.normalised());
   }
   return unfiltered;
 }

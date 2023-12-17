@@ -9,12 +9,18 @@ using namespace anton;
 
 using Error = anton::String;
 
-using pixel_element_t = u8;
+using pixel_element_t = i32;
 
 struct Pixel {
   pixel_element_t r = 0;
   pixel_element_t g = 0;
   pixel_element_t b = 0;
+
+  [[nodiscard]] Pixel normalised() const
+  {
+    return {math::min(255, math::max(0, r)), math::min(255, math::max(0, g)),
+            math::min(255, math::max(0, b))};
+  }
 };
 
 [[nodiscard]] inline Pixel operator+(Pixel lhs, Pixel rhs)

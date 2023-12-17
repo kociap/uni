@@ -4,6 +4,7 @@
 #include <anton/format.hpp>
 #include <anton/slice.hpp>
 
+#include <cstdio>
 #include <tga.hpp>
 #include <types.hpp>
 
@@ -232,6 +233,41 @@ static void quantise(Slice<Vector const> const representation, Iterator begin,
   return pixels;
 }
 
+[[nodiscard]] Array<Pixel>
+difference_with_quantisation(Slice<Pixel const> const data, i32 const bits)
+{
+  Array<Pixel> differenced = difference(data);
+  Channel_Iterator const differenced_end(differenced.end(), 0);
+  Channel_Iterator const begin_r(differenced.begin(), 0);
+  Channel_Iterator const begin_g(differenced.begin(), 1);
+  Channel_Iterator const begin_b(differenced.begin(), 2);
+  Array<Vector> representation_r =
+    generate_representation(begin_r, differenced_end, 1 << bits, 0.1);
+  Array<Vector> representation_g =
+    generate_representation(begin_g, differenced_end, 1 << bits, 0.1);
+  Array<Vector> representation_b =
+    generate_representation(begin_b, differenced_end, 1 << bits, 0.1);
+
+  Array<Pixel> pixels{reserve, data.size()};
+  pixels.force_size(data.size());
+  Pixel const* current = data.begin() + 1;
+  Pixel const* const end = data.end();
+  Pixel* dst = pixels.begin() + 1;
+  Pixel prev = data[0];
+  pixels[0] = prev;
+  while(current != end) {
+    Pixel d = *current - prev;
+    d.r = find_closest_representation(representation_r, d.r);
+    d.g = find_closest_representation(representation_g, d.g);
+    d.b = find_closest_representation(representation_b, d.b);
+    *dst = d;
+    prev = prev + d;
+    ++current;
+    ++dst;
+  }
+  return pixels;
+}
+
 // [[nodiscard]] f64 calculate_MSE(Slice<Pixel const> const predicted,
 //                                 Slice<Pixel const> const source)
 // {
@@ -296,9 +332,31 @@ i32 main(i32 const argc, char** const argv)
     copy(image.data.begin(), image.data.end(), dst);
   }
   Filters filtered = filter(pixels);
-  Array<Pixel> differenced_low = difference(filtered.low);
+  {
+    Pixel* dst_low = filtered.low.begin();
+    Pixel* src_low = filtered.low.begin();
+    Pixel* dst_high = filtered.high.begin();
+    Pixel* src_high = filtered.high.begin();
+    Pixel const* const end = filtered.low.end();
+    i64 index = 0;
+    for(; src_low != end; ++src_low, ++src_high, index += 1) {
+      if(index % 2 != 0) {
+        continue;
+      }
+
+      *dst_low = *src_low;
+      *dst_high = *src_high;
+      ++dst_low;
+      ++dst_high;
+    }
+    filtered.low.force_size(index / 2);
+    filtered.high.force_size(index / 2);
+  }
+  Array<Pixel> differenced_low =
+    difference_with_quantisation(filtered.low, bits);
+
   Array<Pixel>& quantised_high = filtered.high;
-  // Quantise channels.
+  // Quantise high channels.
   {
     Channel_Iterator const end(quantised_high.end(), 0);
     Channel_Iterator const begin_r(quantised_high.begin(), 0);
