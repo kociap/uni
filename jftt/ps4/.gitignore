@@ -1,6 +1,7 @@
 # Environment directories
 .cache/
 .vscode/
+__pycache__/
 
 # Build directories
 build/

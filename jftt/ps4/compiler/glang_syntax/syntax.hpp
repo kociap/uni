@@ -61,14 +61,12 @@ namespace glang {
 
     variable,
 
-    fn_parameter,
-    fn_parameter_list,
-    fn_definition_list,
+    procedure_parameter,
+    procedure_parameter_list,
+    procedure_declaration_list,
 
     decl_procedure,
     decl_main,
-
-    call_arg_list,
 
     expr_identifier,
     expr_binary,
@@ -77,6 +75,7 @@ namespace glang {
 
     stmt_list,
 
+    call_arg_list,
     stmt_call,
     stmt_if,
     stmt_while,

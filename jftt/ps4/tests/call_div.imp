@@ -1,0 +1,16 @@
+PROCEDURE bc(n,k,m) IS
+  s[21],p
+IN
+  p:=n-k;
+  m:=s[n]/s[k];
+  m:=m/s[p];
+END
+
+PROGRAM IS
+    n,k,w, p
+IN
+    READ n;
+    READ k;
+    bc(n,k,w);
+    WRITE w;
+END

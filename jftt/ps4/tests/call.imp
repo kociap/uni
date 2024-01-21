@@ -1,0 +1,28 @@
+PROCEDURE zeromem(T t, n) IS
+  i
+IN
+  i := 0;
+  WHILE i < n DO
+    WRITE i;
+    t[i] := 0;
+    i := i + 1;
+  ENDWHILE
+END
+
+PROCEDURE write(T t, n) IS
+  i
+IN
+  i:=0;
+  WHILE i<n DO
+    WRITE t[i];
+    i:=i+1;
+  ENDWHILE
+END
+
+PROGRAM IS
+  t[23], n
+IN
+  n:=23;
+  zeromem(t, n);
+  write(t,n);
+END

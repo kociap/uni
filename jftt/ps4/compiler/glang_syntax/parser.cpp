@@ -391,7 +391,7 @@ namespace glang {
       return match(result_type, tk_type1, tk_type2);
     }
 
-    Optional<Syntax_Node> try_fn_parameter()
+    Optional<Syntax_Node> expect_procedure_parameter()
     {
       Token_Stream_State const begin_state = lexer.get_current_state();
       anton::Array<SNOT> snots{_allocator};
@@ -402,8 +402,8 @@ namespace glang {
       EXPECT_TOKEN(Token_Kind::identifier, "expected identifier"_sv, snots);
       Token_Stream_State const end_state = lexer.get_current_state_noskip();
       Source_Info const source = src_info(begin_state, end_state);
-      return Syntax_Node(Syntax_Node_Kind::fn_parameter, ANTON_MOV(snots),
-                         source);
+      return Syntax_Node(Syntax_Node_Kind::procedure_parameter,
+                         ANTON_MOV(snots), source);
     }
 
     Optional<Syntax_Node> try_declaration()
@@ -420,20 +420,20 @@ namespace glang {
         anton::Array<SNOT> params_snots{_allocator};
         EXPECT_TOKEN(Token_Kind::tk_lparen, "expected '('"_sv, params_snots);
         while(true) {
-          EXPECT_NODE(try_fn_parameter, params_snots);
+          EXPECT_NODE(expect_procedure_parameter, params_snots);
           if(Optional tk_comma = skipmatch(Token_Kind::tk_comma)) {
             params_snots.push_back(ANTON_MOV(*tk_comma));
           } else {
             break;
           }
         }
+        EXPECT_TOKEN(Token_Kind::tk_rparen, "expected ')'"_sv, params_snots);
         Token_Stream_State const params_end_state =
           lexer.get_current_state_noskip();
         Source_Info const params_source =
           src_info(params_begin_state, params_end_state);
-        snots.push_back(Syntax_Node(Syntax_Node_Kind::fn_parameter_list,
+        snots.push_back(Syntax_Node(Syntax_Node_Kind::procedure_parameter_list,
                                     ANTON_MOV(params_snots), params_source));
-        EXPECT_TOKEN(Token_Kind::tk_rparen, "expected ')'"_sv, snots);
       } else if(Optional kw_program = match(Token_Kind::kw_program)) {
         snots.push_back(ANTON_MOV(*kw_program));
       } else {
@@ -443,38 +443,50 @@ namespace glang {
 
       EXPECT_TOKEN(Token_Kind::kw_is, "expected 'IS'"_sv, snots);
 
-      // Function definition list.
+      // Procedure declaration list.
       Token_Stream_State const def_begin_state = lexer.get_current_state();
       anton::Array<SNOT> def_snots{_allocator};
-      while(true) {
-        Token_Stream_State const var_begin_state = lexer.get_current_state();
-        anton::Array<SNOT> var_snots{_allocator};
-        EXPECT_TOKEN(Token_Kind::identifier, "expected_identifier"_sv,
-                     var_snots);
-        if(Optional tk_lbracket = skipmatch(Token_Kind::tk_lbracket)) {
-          var_snots.push_back(ANTON_MOV(*tk_lbracket));
-          EXPECT_TOKEN(Token_Kind::lt_dec_integer, "expected integer"_sv,
+      if(Optional kw_in = skipmatch(Token_Kind::kw_in)) {
+        Source_Info const def_source =
+          src_info(def_begin_state, def_begin_state);
+        snots.push_back(
+          Syntax_Node(Syntax_Node_Kind::procedure_declaration_list,
+                      ANTON_MOV(def_snots), def_source));
+        snots.push_back(ANTON_MOV(*kw_in));
+      } else {
+        while(true) {
+          Token_Stream_State const var_begin_state = lexer.get_current_state();
+          anton::Array<SNOT> var_snots{_allocator};
+          EXPECT_TOKEN(Token_Kind::identifier, "expected_identifier"_sv,
                        var_snots);
-          EXPECT_TOKEN(Token_Kind::tk_rbracket, "expected ']'"_sv, var_snots);
+          if(Optional tk_lbracket = skipmatch(Token_Kind::tk_lbracket)) {
+            var_snots.push_back(ANTON_MOV(*tk_lbracket));
+            EXPECT_TOKEN(Token_Kind::lt_dec_integer, "expected integer"_sv,
+                         var_snots);
+            EXPECT_TOKEN(Token_Kind::tk_rbracket, "expected ']'"_sv, var_snots);
+          }
+          Token_Stream_State const var_end_state =
+            lexer.get_current_state_noskip();
+          Source_Info const var_source =
+            src_info(var_begin_state, var_end_state);
+          def_snots.push_back(Syntax_Node(Syntax_Node_Kind::variable,
+                                          ANTON_MOV(var_snots), var_source));
+
+          if(Optional tk_comma = skipmatch(Token_Kind::tk_comma)) {
+            def_snots.push_back(ANTON_MOV(*tk_comma));
+          } else {
+            break;
+          }
         }
-        Token_Stream_State const var_end_state =
+        Token_Stream_State const def_end_state =
           lexer.get_current_state_noskip();
-        Source_Info const var_source = src_info(var_begin_state, var_end_state);
-        def_snots.push_back(Syntax_Node(Syntax_Node_Kind::variable,
-                                        ANTON_MOV(var_snots), var_source));
+        Source_Info const def_source = src_info(def_begin_state, def_end_state);
+        snots.push_back(
+          Syntax_Node(Syntax_Node_Kind::procedure_declaration_list,
+                      ANTON_MOV(def_snots), def_source));
 
-        if(Optional tk_comma = skipmatch(Token_Kind::tk_comma)) {
-          def_snots.push_back(ANTON_MOV(*tk_comma));
-        } else {
-          break;
-        }
+        EXPECT_TOKEN(Token_Kind::kw_in, "expected 'IN'"_sv, snots);
       }
-      Token_Stream_State const def_end_state = lexer.get_current_state_noskip();
-      Source_Info const def_source = src_info(def_begin_state, def_end_state);
-      snots.push_back(Syntax_Node(Syntax_Node_Kind::fn_definition_list,
-                                  ANTON_MOV(def_snots), def_source));
-
-      EXPECT_TOKEN(Token_Kind::kw_in, "expected 'IN'"_sv, snots);
 
       // Statement list.
       Token_Stream_State const stmt_begin_state = lexer.get_current_state();
@@ -526,6 +538,7 @@ namespace glang {
       Token_Stream_State const begin_state = lexer.get_current_state();
       anton::Array<SNOT> snots{_allocator};
       if(Optional kw_if = match(Token_Kind::kw_if)) {
+        snots.push_back(ANTON_MOV(*kw_if));
         // Condition.
         EXPECT_NODE(expect_expression, snots);
         EXPECT_TOKEN(Token_Kind::kw_then, "expected 'THEN'"_sv, snots);
@@ -586,7 +599,7 @@ namespace glang {
         EXPECT_TOKEN(Token_Kind::tk_semicolon, "expected ';'"_sv, snots);
         Token_Stream_State const end_state = lexer.get_current_state_noskip();
         Source_Info const source = src_info(begin_state, end_state);
-        return Syntax_Node(Syntax_Node_Kind::stmt_read, ANTON_MOV(snots),
+        return Syntax_Node(Syntax_Node_Kind::stmt_write, ANTON_MOV(snots),
                            source);
       }
 
@@ -614,8 +627,7 @@ namespace glang {
         Token_Stream_State const args_begin_state = lexer.get_current_state();
         anton::Array<SNOT> args_snots{_allocator};
         while(true) {
-          EXPECT_TOKEN(Token_Kind::identifier, "expected identifier"_sv,
-                       args_snots);
+          EXPECT_NODE(expect_expr_identifier, args_snots);
           if(Optional tk_comma = skipmatch(Token_Kind::tk_comma)) {
             args_snots.push_back(ANTON_MOV(*tk_comma));
           } else {
@@ -646,7 +658,8 @@ namespace glang {
       EXPECT_TOKEN(Token_Kind::tk_semicolon, "expected ';'"_sv, snots);
       Token_Stream_State const end_state = lexer.get_current_state_noskip();
       Source_Info const source = src_info(begin_state, end_state);
-      return Syntax_Node(Syntax_Node_Kind::stmt_call, ANTON_MOV(snots), source);
+      return Syntax_Node(Syntax_Node_Kind::stmt_assign, ANTON_MOV(snots),
+                         source);
     }
 
     Optional<Syntax_Node> expect_expression()
@@ -768,42 +781,45 @@ namespace glang {
         // 1. Relational neq, gte, lte,
         // 2. Remaining operators (relational, additive, multiplicative).
 
-        if(Optional op = match(Syntax_Node_Kind::tk_neq, Token_Kind::tk_bang,
-                               Token_Kind::tk_equals)) {
+        if(Optional op =
+             skipmatch(Syntax_Node_Kind::tk_neq, Token_Kind::tk_bang,
+                       Token_Kind::tk_equals)) {
           return ANTON_MOV(op);
         }
 
-        if(Optional op = match(Syntax_Node_Kind::tk_lteq, Token_Kind::tk_langle,
-                               Token_Kind::tk_equals)) {
+        if(Optional op =
+             skipmatch(Syntax_Node_Kind::tk_lteq, Token_Kind::tk_langle,
+                       Token_Kind::tk_equals)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Syntax_Node_Kind::tk_gteq, Token_Kind::tk_rangle,
-                               Token_Kind::tk_equals)) {
+        if(Optional op =
+             skipmatch(Syntax_Node_Kind::tk_gteq, Token_Kind::tk_rangle,
+                       Token_Kind::tk_equals)) {
           return ANTON_MOV(op);
         }
 
-        if(Optional op = match(Token_Kind::tk_equals)) {
+        if(Optional op = skipmatch(Token_Kind::tk_equals)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Token_Kind::tk_langle)) {
+        if(Optional op = skipmatch(Token_Kind::tk_langle)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Token_Kind::tk_rangle)) {
+        if(Optional op = skipmatch(Token_Kind::tk_rangle)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Token_Kind::tk_plus)) {
+        if(Optional op = skipmatch(Token_Kind::tk_plus)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Token_Kind::tk_minus)) {
+        if(Optional op = skipmatch(Token_Kind::tk_minus)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Token_Kind::tk_asterisk)) {
+        if(Optional op = skipmatch(Token_Kind::tk_asterisk)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Token_Kind::tk_slash)) {
+        if(Optional op = skipmatch(Token_Kind::tk_slash)) {
           return ANTON_MOV(op);
         }
-        if(Optional op = match(Token_Kind::tk_percent)) {
+        if(Optional op = skipmatch(Token_Kind::tk_percent)) {
           return ANTON_MOV(op);
         }
 
@@ -889,11 +905,16 @@ namespace glang {
         snots.push_back(ANTON_MOV(*tk_lbracket));
         EXPECT_NODE(expect_expression, snots);
         EXPECT_TOKEN(Token_Kind::tk_rbracket, "expected ']'"_sv, snots);
+        Token_Stream_State const end_state = lexer.get_current_state_noskip();
+        Source_Info const source = src_info(begin_state, end_state);
+        return Syntax_Node(Syntax_Node_Kind::expr_index, ANTON_MOV(snots),
+                           source);
+      } else {
+        Token_Stream_State const end_state = lexer.get_current_state_noskip();
+        Source_Info const source = src_info(begin_state, end_state);
+        return Syntax_Node(Syntax_Node_Kind::expr_identifier, ANTON_MOV(snots),
+                           source);
       }
-      Token_Stream_State const end_state = lexer.get_current_state_noskip();
-      Source_Info const source = src_info(begin_state, end_state);
-      return Syntax_Node(Syntax_Node_Kind::expr_identifier, ANTON_MOV(snots),
-                         source);
     }
   };
 
