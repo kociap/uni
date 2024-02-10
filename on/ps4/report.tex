@@ -1,0 +1,225 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{courier}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{mathtools}
+\usepackage{makecell}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\graphicspath{./}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\newcommand{\R}{\mathbb{R}}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+\onehalfspacing
+
+\title{
+  Obliczenia Naukowe\\
+  \begin{center}\Large Lista 4\end{center}
+}
+\author{Piotr Kocia}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+In the following text we will encounter two concepts - interpolation using
+Newton's polynomial and Horner's polynomial evaluation. We intend to explain
+those prior to .
+
+\subsection{Interpolation and Newton's polynomial}
+We are faced with the problem of finding new data points based on our initial
+discrete set of data. We would like to find a function that approximates the
+dataset in a certain interval. This problem is known as interpolation. We can
+neatly approximate, or interpolate, a function in an interval using a
+polynomial. It is obvious that we may approximate a function using a polynomial
+of degree 0
+$$
+p(x) = a_0 = f(x_0)
+$$
+however, this approximation is far from ideal as it approximates only one point
+(unless the function is a constant function). We would like to add another point
+to our interpolation polynomial so that we can approximate a more than just a
+horizontal line. We thus add a term $a_1(x - x_0)$ which is 0 at $x_0$, leaving
+us with the original point $a_0$, and non-zero everywhere else. $p(x)$ then
+becomes
+$$
+p(x) = a_0 + a_1(x - x_0)
+$$
+We do not yet know what $a_1$ is, but we can easily derive it. If we evaluate $p$
+at $x_1$, it should yield the same result as $f(x_1)$, hence $f(x_1) = f(x_0) +
+a_1(x_1 - x_0)$ and thus
+$$
+a_1 = \frac{f(x_1) - f(x_0)}{x_1 - x_0}
+$$
+We may continue to add points to the polynomial to improve the approximation. We
+would add a third point by adding a term $a_2(x - x_0)(x - x_1)$ to make
+$$
+p(x) = a_0 + a_1(x - x_0) + a_2(x - x_0)(x - x_1)
+$$
+We note that we have now two terms involving x which evaluate to 0 at $x_0$ and
+$x_1$, respectively. That is because $p$ already gives us the correct results at
+those points and we would like to maintain that property. $a_2$ may be derived
+similarly to $a_1$
+\begin{gather}
+  y_2 = a_0 + a_1(x_2 - x_0) + a_2(x_2 - x_0)(x_2 - x_1) \nonumber \\
+  y_2 = y_0 + \frac{y_1 - y_0}{x_1 - x_0}(x_2 - x_0) + a_2(x_2 - x_0)(x_2 - x_1) \nonumber \\
+  y_2 - y_0 - \frac{y_1 - y_0}{x_1 - x_0}(x_2 - x_0) = a_2(x_2 - x_0)(x_2 - x_1) \nonumber \\
+  y_2 - y_1 + y_1 - y_0 - \frac{y_1 - y_0}{x_1 - x_0}(x_2 - x_0) = a_2(x_2 - x_0)(x_2 - x_1) \nonumber \\
+  \frac{y_2 - y_1}{x_2 - x_1}(x_2 - x_1) + \frac{y_1 - y_0}{x_1 - x_0}(x_1 - x_0) - \frac{y_1 - y_0}{x_1 - x_0}(x_2 - x_0) = a_2(x_2 - x_0)(x_2 - x_1) \nonumber \\
+  \frac{y_2 - y_1}{x_2 - x_1}(x_2 - x_1) - \frac{y_1 - y_0}{x_1 - x_0}(x_2 - x_1) = a_2(x_2 - x_0)(x_2 - x_1) \nonumber \\
+  \frac{y_2 - y_1}{x_2 - x_1} - \frac{y_1 - y_0}{x_1 - x_0} = a_2(x_2 - x_0) \nonumber \\
+  \frac{\frac{y_2 - y_1}{x_2 - x_1} - \frac{y_1 - y_0}{x_1 - x_0}}{x_2 - x_0} = a_2 \label{eq:newton}
+\end{gather}
+Let us introduce notation
+\begin{alignat*}{2}
+  f[x_k] &= y_k \quad && k \in \{0, ..., n\} \\
+  f[x_k, ..., x_{k+j}] &= \frac{f[x_{k+1}, ..., x_{k+j}] - f[x_k, ..., x_{k+j+1}]}{x_{k+j} - x_k}, \ && k \in \{0, ..., n - j\}, j \in \{1, ..., n\}
+\end{alignat*}
+Then equation \ref{eq:newton} becomes
+\begin{gather*}
+  \frac{f[x_1, x_2] - f[x_0, x_1]}{x_2 - x_0} = a_2 \\
+  f[x_2, x_1, x_0] = a_2
+\end{gather*}
+This polynomial, called the Newton's polynomial, may be generalised to any
+degree by adding more terms.
+
+\subsection{Horner's algorithm}
+Given a polynomial
+$$
+p(x) = a_0 + a_1x + a_2x^2 + a_3x^3 + ... + a_nx^n
+$$
+we may rewrite it as
+$$
+p(x) = a_0 + x(a_1 + x(a_2 + x(a_3 + ... + x(a_{n-1} + xa_n))))
+$$
+This formula, when programmed into a computer, requires only n multiplications
+and n additions to be fully evaluated, which is optimal. The implementation may
+be easily provided as the algorithm consists of repeated multiplication and
+addition.
+
+\section{Problem 5}
+We are to plot the following functions and their Newton interpolation
+\begin{itemize}
+  \item $e^x$ in $[0, 1]$, $n = 5, 10, 15$,
+  \item $x^2 \sin x$ in $[-1, 1]$, $n = 5, 10, 15$.
+\end{itemize}
+
+\subsection{Results}
+The results for the first function are presented in Figure \ref{fig:ex5_f1_5},
+Figure \ref{fig:ex5_f1_10} and Figure \ref{fig:ex5_f1_15}, and for the second
+function in Figure \ref{fig:ex5_f2_5}, Figure \ref{fig:ex5_f2_10} and Figure
+\ref{fig:ex5_f2_15}.
+
+\subsection{Conclusions}
+The interpolation of both functions is accurate as it closely matches the
+curves. Interpolation works well with this particular kind of smooth curves.
+
+\section{Problem 6}
+We are to plot the following functions and their Newton interpolation
+\begin{itemize}
+  \item $\abs{x}$ in $[-1, 1]$, $n = 5, 10, 15$,
+  \item $\frac{1}{1+x^2}$ in $[-5, 5]$, $n = 5, 10, 15$.
+\end{itemize}
+
+\subsection{Results}
+The results for the first function are presented in Figure \ref{fig:ex6_f1_5},
+Figure \ref{fig:ex6_f1_10} and Figure \ref{fig:ex6_f1_15}, and for the second
+function in Figure \ref{fig:ex6_f2_5}, Figure \ref{fig:ex6_f2_10} and Figure
+\ref{fig:ex6_f2_15}.
+
+\subsection{Conclusions}
+Accurate interpolation of the first function is in general impossible. The
+function is not differentiable at $x = 0$ (has a sharp peak) and thus is
+difficult to approximate with a smooth (differentiable) curve at that point. On
+the other hand, the second function does not suffer from this problem and the
+accuracy of the approximation improves with the degree of the interpolating
+polynomial.
+
+Regardless, both functions are subject to Runge's phenomenon (we say they are
+Runge functions). The phenomenon is that, due to being interpolated over a set
+of equispaced points, as the degree of the interpolating polynomial increases,
+the oscillation at the ends of the interval rapidly grows. A direct corollary is
+that increasing the degree does not always result in improvement in accuracy.
+
+\section{Appendix}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{ex5_f1_5}
+\caption{Function $f_1$ from problem 5 with degree 5 polynomial.}
+\label{fig:ex5_f1_5}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex5_f1_10}
+\caption{Function $f_1$ from problem 5 with degree 10 polynomial.}
+\label{fig:ex5_f1_10}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex5_f1_15}
+\caption{Function $f_1$ from problem 5 with degree 15 polynomial.}
+\label{fig:ex5_f1_15}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex5_f2_5}
+\caption{Function $f_2$ from problem 5 with degree 5 polynomial.}
+\label{fig:ex5_f2_5}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex5_f2_10}
+\caption{Function $f_2$ from problem 5 with degree 10 polynomial.}
+\label{fig:ex5_f2_10}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex5_f1_15}
+\caption{Function $f_2$ from problem 5 with degree 15 polynomial.}
+\label{fig:ex5_f2_15}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{ex6_f1_5}
+\caption{Function $f_1$ from problem 6 with degree 5 polynomial.}
+\label{fig:ex6_f1_5}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex6_f1_10}
+\caption{Function $f_1$ from problem 6 with degree 10 polynomial.}
+\label{fig:ex6_f1_10}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex6_f1_15}
+\caption{Function $f_1$ from problem 6 with degree 15 polynomial.}
+\label{fig:ex6_f1_15}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex6_f2_5}
+\caption{Function $f_2$ from problem 6 with degree 5 polynomial.}
+\label{fig:ex6_f2_5}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex6_f2_10}
+\caption{Function $f_2$ from problem 6 with degree 10 polynomial.}
+\label{fig:ex6_f2_10}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{ex6_f1_15}
+\caption{Function $f_2$ from problem 6 with degree 15 polynomial.}
+\label{fig:ex6_f2_15}
+\end{figure}
+
+\end{document}
