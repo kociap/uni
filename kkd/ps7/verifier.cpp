@@ -32,7 +32,7 @@ i32 main(i32 const argc, char** const argv)
   infile1.read(data1.data(), infile1_size);
   infile1.close();
 
-  anton::String const infile2name(argv[1]);
+  anton::String const infile2name(argv[2]);
   anton::fs::Input_File_Stream infile2(infile2name);
   if(!infile2.is_open() || infile2.error()) {
     stderr.write(
