@@ -1,0 +1,44 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{mathtools}
+
+\let\emptyset\varnothing
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\begin{document}
+
+\title{
+  Języki Formalne i Techniki Translacji \\
+  \vspace{0.5em}
+  \begin{center}\Large Lista 4, Zadanie 7\end{center}}
+\author{Piotr Kocia}
+\date{}
+\maketitle
+
+We are to prove that the language $L$ over the alphabet $\{ 1, 2, 3, 4 \}$ such
+that $L = \{ w \ | \ \abs{w}_1 = \abs{w}_2 \land \abs{w}_3 = \abs{w}_4 \}$ is
+either context-free or not. We begin by assuming it is not context-free and use
+proof by contradiction as this allows us to use the pumping lemma for
+context-free languages.
+
+\begin{proof}
+Assume $L$ is context-free. By the pumping lemma let $p$ be the pumping length,
+then let $s = 1^p3^p2^p4^p$. Then there exists no partition of $s$ into $uvwxy$
+such that $\abs{vwx} \leq p$ and $\abs{vw}_1 = \abs{vw}_2 \land \abs{vw}_3 =
+\abs{vw}_4$.
+\end{proof}
+
+The condition that $vw$ contains the same number of 1,2 and 3,4 symbols is
+necessary for when we apply the pumping part of the lemma, that is $uv^nwx^ny, n
+\geq 0$, the lemma produces words that do not satisfy the conditions of the
+language - if $\abs{vw}_1 \neq \abs{vw}_2$, then while pumping we produce
+different quantites of 1s and 2s, hence failing the condition.
+
+\end{document}
